@@ -18,7 +18,7 @@ All of the models are stored in this module
 
 Models
 ------
-Pet - A Pet used in the Pet Store
+Product - A Pet used in the Pet Store
 
 Attributes:
 -----------
