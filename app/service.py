@@ -99,47 +99,50 @@ def internal_server_error(error):
 @app.route('/')
 def index():
     """ Root URL response """
-    return jsonify(name='Pet Demo REST API Service',
+    return jsonify(name='Product Demo REST API Service',
                    version='1.0',
-                   paths=url_for('list_pets', _external=True)
+                   paths=url_for('list_products', _external=True)
                   ), status.HTTP_200_OK
 
 ######################################################################
 # LIST ALL PETS
 ######################################################################
-@app.route('/pets', methods=['GET'])
+@app.route('/products', methods=['GET'])
 def list_pets():
     """ Returns all of the Pets """
-    app.logger.info('Request for pet list')
-    pets = []
+    app.logger.info('Request for product list')
+    products = []
     category = request.args.get('category')
     name = request.args.get('name')
+    price = request.args.get('price')
     if category:
-        pets = Pet.find_by_category(category)
+        products = Product.find_by_category(category)
     elif name:
-        pets = Pet.find_by_name(name)
+        products = Product.find_by_name(name)
+    elif price:
+        products = Product.find_by_price(price)    
     else:
-        pets = Pet.all()
+        products = Product.all()
 
-    results = [pet.serialize() for pet in pets]
+    results = [product.serialize() for product in products]
     return make_response(jsonify(results), status.HTTP_200_OK)
 
 
 ######################################################################
 # RETRIEVE A PET
 ######################################################################
-@app.route('/pets/<int:pet_id>', methods=['GET'])
-def get_pets(pet_id):
+@app.route('/products/<int:product_id>', methods=['GET'])
+def get_products(product_id):
     """
-    Retrieve a single Pet
+    Retrieve a single Product
 
-    This endpoint will return a Pet based on it's id
+    This endpoint will return a Product based on it's id
     """
-    app.logger.info('Request for pet with id: %s', pet_id)
-    pet = Pet.find(pet_id)
-    if not pet:
-        raise NotFound("Pet with id '{}' was not found.".format(pet_id))
-    return make_response(jsonify(pet.serialize()), status.HTTP_200_OK)
+    app.logger.info('Request for product with id: %s', product_id)
+    product = Product.find(product_id)
+    if not product:
+        raise NotFound("Product with id '{}' was not found.".format(product_id))
+    return make_response(jsonify(product.serialize()), status.HTTP_200_OK)
 
 
 ######################################################################
