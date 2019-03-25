@@ -186,19 +186,19 @@ def update_pets(pet_id):
 
 
 ######################################################################
-# DELETE A PET
+# DELETE A PRODUCT
 ######################################################################
-@app.route('/pets/<int:pet_id>', methods=['DELETE'])
-def delete_pets(pet_id):
+@app.route('/pets/<int:products_id>', methods=['DELETE'])
+def delete_products(products_id):
     """
-    Delete a Pet
+    Delete a Product
 
-    This endpoint will delete a Pet based the id specified in the path
+    This endpoint will delete a Product based the id specified in the path
     """
-    app.logger.info('Request to delete pet with id: %s', pet_id)
-    pet = Pet.find(pet_id)
-    if pet:
-        pet.delete()
+    app.logger.info('Request to delete product with id: %s', products_id)
+    products = Products.find(products_id)
+    if products:
+        products.delete()
     return make_response('', status.HTTP_204_NO_CONTENT)
 
 ######################################################################
