@@ -18,13 +18,14 @@ All of the models are stored in this module
 
 Models
 ------
-products - products used in the e-commerce Store
+product - A product used in the e-commerce Store
 
 Attributes:
 -----------
-name (string) - the name of the products
-category (string) - the category the products belongs to (i.e., apparel, shoe)
+name (string) - the name of the product
+category (string) - the category the product belongs to (i.e., apparel, shoe)
 available (boolean) - True for products that are available for purchase
+price (Integer) - the price of the product
 
 """
 import logging
@@ -37,9 +38,9 @@ class DataValidationError(Exception):
     """ Used for an data validation errors when deserializing """
     pass
 
-class products(db.Model):
+class Products(db.Model):
     """
-    Class that represents a products
+    Class that represents a product
 
     This version uses a relational database for persistence which is hidden
     from us by SQLAlchemy's object relational mappings (ORM)
@@ -55,18 +56,18 @@ class products(db.Model):
     price = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<products %r>' % (self.name)
+        return '<product %r>' % (self.name)
 
     def save(self):
         """
-        Saves a products to the data store
+        Saves a product to the data store
         """
         if not self.id:
             db.session.add(self)
         db.session.commit()
 
     def delete(self):
-        """ Removes a products from the data store """
+        """ Removes a product from the data store """
         db.session.delete(self)
         db.session.commit()
 
@@ -80,10 +81,10 @@ class products(db.Model):
 
     def deserialize(self, data):
         """
-        Deserializes a products from a dictionary
+        Deserializes a product from a dictionary
 
         Args:
-            data (dict): A dictionary containing the products data
+            data (dict): A dictionary containing the product data
         """
         try:
             self.name = data['name']
@@ -91,9 +92,9 @@ class products(db.Model):
             self.available = data['available']
             self.price = data['price']
         except KeyError as error:
-            raise DataValidationError('Invalid products: missing ' + error.args[0])
+            raise DataValidationError('Invalid product: missing ' + error.args[0])
         except TypeError as error:
-            raise DataValidationError('Invalid products: body of request contained' \
+            raise DataValidationError('Invalid product: body of request contained' \
                                       'bad or no data')
         return self
 
@@ -114,16 +115,16 @@ class products(db.Model):
         return cls.query.all()
 
     @classmethod
-    def find(cls, products_id):
-        """ Finds a products by it's ID """
-        cls.logger.info('Processing lookup for id %s ...', products_id)
-        return cls.query.get(products_id)
+    def find(cls, product_id):
+        """ Finds a product by it's ID """
+        cls.logger.info('Processing lookup for id %s ...', product_id)
+        return cls.query.get(product_id)
 
     @classmethod
-    def find_or_404(cls, products_id):
-        """ Find a products by it's id """
-        cls.logger.info('Processing lookup or 404 for id %s ...', products_id)
-        return cls.query.get_or_404(products_id)
+    def find_or_404(cls, product_id):
+        """ Find a product by it's id """
+        cls.logger.info('Processing lookup or 404 for id %s ...', product_id)
+        return cls.query.get_or_404(product_id)
 
     @classmethod
     def find_by_name(cls, name):
