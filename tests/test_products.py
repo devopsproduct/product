@@ -115,13 +115,14 @@ class TestProducts(unittest.TestCase):
 
     def test_deserialize_a_product(self):
         """ Test deserialization of a product """
-        data = {"id": 1, "name": "T-Shirt", "category": "Clothing", "available": True}
+        data = {"id": 1, "name": "T-Shirt", "category": "Clothing", "available": True, "Price": 35}
         product = Products()
         product.deserialize(data)
         self.assertNotEqual(product, None)
         self.assertEqual(product.id, None)
         self.assertEqual(product.name, "T-Shirt")
         self.assertEqual(product.category, "Clothing")
+        self.assertEqual(product.price, 35)
         self.assertEqual(product.available, True)
 
     def test_deserialize_bad_data(self):
