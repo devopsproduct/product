@@ -30,7 +30,7 @@ DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///../db/test.db')
 ######################################################################
 #  T E S T   C A S E S
 ######################################################################
-class TestPets(unittest.TestCase):
+class TestProducts(unittest.TestCase):
     """ Test Cases for Pets """
 
     @classmethod
@@ -53,20 +53,20 @@ class TestPets(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_create_a_pet(self):
+    def test_create_a_pro(self):
         """ Create a pet and assert that it exists """
-        pet = Pet(name="fido", category="dog", available=True)
-        self.assertTrue(pet != None)
-        self.assertEqual(pet.id, None)
-        self.assertEqual(pet.name, "fido")
-        self.assertEqual(pet.category, "dog")
-        self.assertEqual(pet.available, True)
+        product = Products(name="Television", category="Electionics", available=True)
+        self.assertTrue(product != None)
+        self.assertEqual(product.id, None)
+        self.assertEqual(product.name, "Television")
+        self.assertEqual(product.category, "Electionics")
+        self.assertEqual(product.available, True)
 
-    def test_add_a_pet(self):
+    def test_add_a_Products(self):
         """ Create a pet and add it to the database """
         pets = Pet.all()
         self.assertEqual(pets, [])
-        pet = Pet(name="fido", category="dog", available=True)
+        pet = Products(name="fido", category="dog", available=True)
         self.assertTrue(pet != None)
         self.assertEqual(pet.id, None)
         pet.save()
@@ -75,9 +75,9 @@ class TestPets(unittest.TestCase):
         pets = Pet.all()
         self.assertEqual(len(pets), 1)
 
-    def test_update_a_pet(self):
+    def test_update_a_Products(self):
         """ Update a Pet """
-        pet = Pet(name="fido", category="dog", available=True)
+        pet = Products(name="fido", category="dog", available=True)
         pet.save()
         self.assertEqual(pet.id, 1)
         # Change it an save it
@@ -90,18 +90,18 @@ class TestPets(unittest.TestCase):
         self.assertEqual(len(pets), 1)
         self.assertEqual(pets[0].category, "k9")
 
-    def test_delete_a_pet(self):
+    def test_delete_a_Products(self):
         """ Delete a Pet """
-        pet = Pet(name="fido", category="dog", available=True)
+        pet = Products(name="fido", category="dog", available=True)
         pet.save()
         self.assertEqual(len(Pet.all()), 1)
         # delete the pet and make sure it isn't in the database
         pet.delete()
         self.assertEqual(len(Pet.all()), 0)
 
-    def test_serialize_a_pet(self):
+    def test_serialize_a_Products(self):
         """ Test serialization of a Pet """
-        pet = Pet(name="fido", category="dog", available=False)
+        pet = Products(name="fido", category="dog", available=False)
         data = pet.serialize()
         self.assertNotEqual(data, None)
         self.assertIn('id', data)
@@ -113,10 +113,10 @@ class TestPets(unittest.TestCase):
         self.assertIn('available', data)
         self.assertEqual(data['available'], False)
 
-    def test_deserialize_a_pet(self):
+    def test_deserialize_a_Products(self):
         """ Test deserialization of a Pet """
         data = {"id": 1, "name": "kitty", "category": "cat", "available": True}
-        pet = Pet()
+        pet = Products()
         pet.deserialize(data)
         self.assertNotEqual(pet, None)
         self.assertEqual(pet.id, None)
@@ -127,13 +127,13 @@ class TestPets(unittest.TestCase):
     def test_deserialize_bad_data(self):
         """ Test deserialization of bad data """
         data = "this is not a dictionary"
-        pet = Pet()
+        pet = Products()
         self.assertRaises(DataValidationError, pet.deserialize, data)
 
-    def test_find_pet(self):
+    def test_find_Products(self):
         """ Find a Pet by ID """
-        Pet(name="fido", category="dog", available=True).save()
-        kitty = Pet(name="kitty", category="cat", available=False)
+        Products(name="fido", category="dog", available=True).save()
+        kitty = Products(name="kitty", category="cat", available=False)
         kitty.save()
         pet = Pet.find(kitty.id)
         self.assertIsNot(pet, None)
@@ -143,8 +143,8 @@ class TestPets(unittest.TestCase):
 
     def test_find_by_category(self):
         """ Find Pets by Category """
-        Pet(name="fido", category="dog", available=True).save()
-        Pet(name="kitty", category="cat", available=False).save()
+        Products(name="fido", category="dog", available=True).save()
+        Products(name="kitty", category="cat", available=False).save()
         pets = Pet.find_by_category("cat")
         self.assertEqual(pets[0].category, "cat")
         self.assertEqual(pets[0].name, "kitty")
@@ -152,8 +152,8 @@ class TestPets(unittest.TestCase):
 
     def test_find_by_name(self):
         """ Find a Pet by Name """
-        Pet(name="fido", category="dog", available=True).save()
-        Pet(name="kitty", category="cat", available=False).save()
+        Products(name="fido", category="dog", available=True).save()
+        Products(name="kitty", category="cat", available=False).save()
         pets = Pet.find_by_name("kitty")
         self.assertEqual(pets[0].category, "cat")
         self.assertEqual(pets[0].name, "kitty")
