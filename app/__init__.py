@@ -4,7 +4,7 @@ Package: app
 Package for the application models and services
 This module also sets up the logging to be used with gunicorn
 """
-import service
+
 import logging
 from flask import Flask
 
@@ -15,6 +15,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db/development.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'please, tell nobody... Shhhh'
 app.config['LOGGING_LEVEL'] = logging.INFO
+
+import service
 
 # Set up logging for production
 print 'Setting up logging for {}...'.format(__name__)

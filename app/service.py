@@ -36,7 +36,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import Products, DataValidationError
 
 # Import Flask application
-from . import app
+from app import app
 
 ######################################################################
 # Error Handlers
