@@ -3,18 +3,18 @@ Test Factory to make fake objects for testing
 """
 import factory
 from factory.fuzzy import FuzzyChoice
-from app.models import Pet
+from app.models import Products
 
-class PetFactory(factory.Factory):
-    """ Creates fake pets that you don't have to feed """
+class ProductFactory(factory.Factory):
+    """ Creates fake products that you don't have to use """
     class Meta:
-        model = Pet
+        model = Products
     id = factory.Sequence(lambda n: n)
     name = factory.Faker('first_name')
-    category = FuzzyChoice(choices=['dog', 'cat', 'bird', 'fish'])
+    category = FuzzyChoice(choices=['Television', 'T-Shirt', 'Table', 'Helicopter'])
     available = FuzzyChoice(choices=[True, False])
 
 if __name__ == '__main__':
     for _ in range(10):
-        pet = PetFactory()
-        print(pet.serialize())
+        product = ProductFactory()
+        print(product.serialize())
