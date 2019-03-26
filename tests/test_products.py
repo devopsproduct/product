@@ -81,7 +81,7 @@ class TestProducts(unittest.TestCase):
         product.save()
         self.assertEqual(product.id, 1)
         # Change it an save it
-        product.category = "Electrionics"
+        product.category = "Electronics"
         product.save()
         self.assertEqual(product.id, 1)
         # Fetch it back and make sure the id hasn't changed
@@ -99,65 +99,65 @@ class TestProducts(unittest.TestCase):
         product.delete()
         self.assertEqual(len(Products.all()), 0)
 
-    def test_serialize_a_Products(self):
-        """ Test serialization of a Pet """
-        pet = Products(name="fido", category="dog", available=False)
-        data = pet.serialize()
+    def test_serialize_a_product(self):
+        """ Test serialization of a Product """
+        product = Products(name="Television", category="Electronics", available=True)
+        data = product.serialize()
         self.assertNotEqual(data, None)
         self.assertIn('id', data)
         self.assertEqual(data['id'], None)
         self.assertIn('name', data)
-        self.assertEqual(data['name'], "fido")
+        self.assertEqual(data['name'], "Television")
         self.assertIn('category', data)
-        self.assertEqual(data['category'], "dog")
+        self.assertEqual(data['category'], "Electronics")
         self.assertIn('available', data)
         self.assertEqual(data['available'], False)
 
-    def test_deserialize_a_Products(self):
-        """ Test deserialization of a Pet """
-        data = {"id": 1, "name": "kitty", "category": "cat", "available": True}
-        pet = Products()
-        pet.deserialize(data)
-        self.assertNotEqual(pet, None)
-        self.assertEqual(pet.id, None)
-        self.assertEqual(pet.name, "kitty")
-        self.assertEqual(pet.category, "cat")
-        self.assertEqual(pet.available, True)
+    def test_deserialize_a_product(self):
+        """ Test deserialization of a product """
+        data = {"id": 1, "name": "T-Shirt", "category": "Clothing", "available": True}
+        product = Products()
+        product.deserialize(data)
+        self.assertNotEqual(product, None)
+        self.assertEqual(product.id, None)
+        self.assertEqual(product.name, "T-Shirt")
+        self.assertEqual(product.category, "Clothing")
+        self.assertEqual(product.available, True)
 
     def test_deserialize_bad_data(self):
         """ Test deserialization of bad data """
         data = "this is not a dictionary"
-        pet = Products()
-        self.assertRaises(DataValidationError, pet.deserialize, data)
+        product = Products()
+        self.assertRaises(DataValidationError, product.deserialize, data)
 
-    def test_find_Products(self):
-        """ Find a Pet by ID """
-        Products(name="fido", category="dog", available=True).save()
-        kitty = Products(name="kitty", category="cat", available=False)
-        kitty.save()
-        pet = Pet.find(kitty.id)
-        self.assertIsNot(pet, None)
-        self.assertEqual(pet.id, kitty.id)
-        self.assertEqual(pet.name, "kitty")
-        self.assertEqual(pet.available, False)
+    def test_find_products(self):
+        """ Find a Product by ID """
+        Products(name="Television", category="Electronics", available=True).save()
+        TShirt = Products(name="T-Shirt", category="Clothing", available=False)
+        TShirt.save()
+        product = Products.find(TShirt.id)
+        self.assertIsNot(product, None)
+        self.assertEqual(product.id, TShirt.id)
+        self.assertEqual(product.name, "T-Shirt")
+        self.assertEqual(product.available, False)
 
     def test_find_by_category(self):
         """ Find Pets by Category """
-        Products(name="fido", category="dog", available=True).save()
-        Products(name="kitty", category="cat", available=False).save()
-        pets = Pet.find_by_category("cat")
-        self.assertEqual(pets[0].category, "cat")
-        self.assertEqual(pets[0].name, "kitty")
-        self.assertEqual(pets[0].available, False)
+        Products(name="Television", category="Electronics", available=True).save()
+        Products(name="T-Shirt", category="Clothing", available=False).save()
+        product = Products.find_by_category("Clothing")
+        self.assertEqual(product[0].category, "Clothing")
+        self.assertEqual(product[0].name, "T-Shirt")
+        self.assertEqual(product[0].available, False)
 
     def test_find_by_name(self):
         """ Find a Pet by Name """
-        Products(name="fido", category="dog", available=True).save()
-        Products(name="kitty", category="cat", available=False).save()
-        pets = Pet.find_by_name("kitty")
-        self.assertEqual(pets[0].category, "cat")
-        self.assertEqual(pets[0].name, "kitty")
-        self.assertEqual(pets[0].available, False)
+        Products(name="Television", category="Electronics", available=True).save()
+        Products(name="T-Shirt", category="Clothing", available=False).save()
+        product = Products.find_by_name("T-Shirt")
+        self.assertEqual(product[0].category, "Clothing")
+        self.assertEqual(product[0].name, "T-Shirt")
+        self.assertEqual(product[0].available, False)
 
 
 ######################################################################
