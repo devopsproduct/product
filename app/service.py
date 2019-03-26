@@ -36,7 +36,7 @@ from flask_sqlalchemy import SQLAlchemy
 from models import Products, DataValidationError
 
 # Import Flask application
-from . import app
+from app import app
 
 ######################################################################
 # Error Handlers
@@ -117,13 +117,13 @@ def list_products():
     name = request.args.get('name')
     price = request.args.get('price')
     if category:
-        products = Product.find_by_category(category)
+        products = Products.find_by_category(category)
     elif name:
-        products = Product.find_by_name(name)
+        products = Products.find_by_name(name)
     elif price:
-        products = Product.find_by_price(price)    
+        products = Products.find_by_price(price) 
     else:
-        products = Product.all()
+        products = Products.all()
 
     results = [product.serialize() for product in products]
     return make_response(jsonify(results), status.HTTP_200_OK)
@@ -140,7 +140,7 @@ def get_products(product_id):
     This endpoint will return a Product based on it's id
     """
     app.logger.info('Request for product with id: %s', product_id)
-    product = Product.find(product_id)
+    product = Products.find(product_id)
     if not product:
         raise NotFound("Product with id '{}' was not found.".format(product_id))
     return make_response(jsonify(product.serialize()), status.HTTP_200_OK)
@@ -157,10 +157,10 @@ def create_products():
     """
     app.logger.info('Request to create a product')
     check_content_type('application/json')
-    product = Product()
+    product = Products()
     product.deserialize(request.get_json())
     product.save()
-    message = prouct.serialize()
+    message = product.serialize()
     location_url = url_for('get_products', product_id=product.id, _external=True)
     return make_response(jsonify(message), status.HTTP_201_CREATED,
                          {
@@ -180,7 +180,7 @@ def update_products(product_id):
     """
     app.logger.info('Request to update product with id: %s', product_id)
     check_content_type('application/json')
-    product = Product.find(product_id)
+    product = Products.find(product_id)
     if not product:
         raise NotFound("Product with id '{}' was not found.".format(product_id))
     product.deserialize(request.get_json())
@@ -193,7 +193,9 @@ def update_products(product_id):
 ######################################################################
 # DELETE A PRODUCT
 ######################################################################
+
 @app.route('/products/<int:product_id>', methods=['DELETE'])
+
 
 def delete_product(product_id):
     """
@@ -211,10 +213,12 @@ def delete_product(product_id):
 #  U T I L I T Y   F U N C T I O N S
 ######################################################################
 
+
 def init_db():
     """ Initialies the SQLAlchemy app """
     global app
     Products.init_db(app)
+
 
 def check_content_type(content_type):
     """ Checks that the media type is correct """
@@ -222,6 +226,7 @@ def check_content_type(content_type):
         return
     app.logger.error('Invalid Content-Type: %s', request.headers['Content-Type'])
     abort(415, 'Content-Type must be {}'.format(content_type))
+
 
 def initialize_logging(log_level=logging.INFO):
     """ Initialized the default logging to STDOUT """
