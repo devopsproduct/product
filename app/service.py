@@ -214,7 +214,7 @@ def delete_product(product_id):
 def init_db():
     """ Initialies the SQLAlchemy app """
     global app
-    Product.init_db(app)
+    Products.init_db(app)
 
 def check_content_type(content_type):
     """ Checks that the media type is correct """
