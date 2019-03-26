@@ -90,14 +90,14 @@ class TestProducts(unittest.TestCase):
         self.assertEqual(len(products), 1)
         self.assertEqual(product[0].category, "Electronics")
 
-    def test_delete_a_Products(self):
-        """ Delete a Pet """
-        pet = Products(name="fido", category="dog", available=True)
-        pet.save()
-        self.assertEqual(len(Pet.all()), 1)
-        # delete the pet and make sure it isn't in the database
-        pet.delete()
-        self.assertEqual(len(Pet.all()), 0)
+    def test_delete_a_product(self):
+        """ Delete a product """
+        product = Products(name="Television", category="Electronics", available=True)
+        product.save()
+        self.assertEqual(len(Products.all()), 1)
+        # delete the product and make sure it isn't in the database
+        product.delete()
+        self.assertEqual(len(Products.all()), 0)
 
     def test_serialize_a_Products(self):
         """ Test serialization of a Pet """
