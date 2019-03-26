@@ -13,9 +13,7 @@
 # limitations under the License.
 """
 Models for products Service
-
 All of the models are stored in this module
-
 Models
 ------
 product - A product used in the e-commerce Store
@@ -27,7 +25,6 @@ category (string) - the category the product belongs to (i.e., apparel, shoe)
 available (boolean) - True for products that are available for purchase
 price (Integer) - the price of the product
 
-"""
 import logging
 from flask_sqlalchemy import SQLAlchemy
 

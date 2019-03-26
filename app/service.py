@@ -13,15 +13,14 @@
 # limitations under the License.
 
 """
-Pet Store Service
-
+Products Service
 Paths:
 ------
-GET /pets - Returns a list all of the Pets
-GET /pets/{id} - Returns the Pet with a given id number
-POST /pets - creates a new Pet record in the database
-PUT /pets/{id} - updates a Pet record in the database
-DELETE /pets/{id} - deletes a Pet record in the database
+GET /products - Returns a list all of the Products
+GET /product/{id} - Returns the Product with a given id number
+POST /products - creates a new Product record in the database
+PUT /products/{id} - updates a Product record in the database
+DELETE /products/{id} - deletes a Product record in the database
 """
 
 import os
@@ -34,7 +33,7 @@ from werkzeug.exceptions import NotFound
 # For this example we'll use SQLAlchemy, a popular ORM that supports a
 # variety of backends including SQLite, MySQL, and PostgreSQL
 from flask_sqlalchemy import SQLAlchemy
-from models import Pet, DataValidationError
+from models import Products, DataValidationError
 
 # Import Flask application
 from . import app
@@ -105,11 +104,13 @@ def index():
                   ), status.HTTP_200_OK
 
 ######################################################################
-# LIST ALL PETS
+# LIST ALL Products
 ######################################################################
 @app.route('/products', methods=['GET'])
-def list_pets():
-    """ Returns all of the Pets """
+
+def list_products():
+    """ Returns all of the Products """
+
     app.logger.info('Request for product list')
     products = []
     category = request.args.get('category')
@@ -129,7 +130,7 @@ def list_pets():
 
 
 ######################################################################
-# RETRIEVE A PET
+# RETRIEVE A Product
 ######################################################################
 @app.route('/products/<int:product_id>', methods=['GET'])
 def get_products(product_id):
@@ -146,21 +147,21 @@ def get_products(product_id):
 
 
 ######################################################################
-# ADD A NEW PET
+# ADD A NEW Product
 ######################################################################
-@app.route('/pets', methods=['POST'])
-def create_pets():
+@app.route('/products', methods=['POST'])
+def create_products():
     """
-    Creates a Pet
-    This endpoint will create a Pet based the data in the body that is posted
+    Creates a Product
+    This endpoint will create a Product based the data in the body that is posted
     """
-    app.logger.info('Request to create a pet')
+    app.logger.info('Request to create a product')
     check_content_type('application/json')
-    pet = Pet()
-    pet.deserialize(request.get_json())
-    pet.save()
-    message = pet.serialize()
-    location_url = url_for('get_pets', pet_id=pet.id, _external=True)
+    product = Product()
+    product.deserialize(request.get_json())
+    product.save()
+    message = prouct.serialize()
+    location_url = url_for('get_products', product_id=product.id, _external=True)
     return make_response(jsonify(message), status.HTTP_201_CREATED,
                          {
                              'Location': location_url
@@ -168,7 +169,7 @@ def create_pets():
 
 
 ######################################################################
-# UPDATE AN EXISTING PET
+# UPDATE AN EXISTING Product
 ######################################################################
 @app.route('/products/<int:product_id>', methods=['PUT'])
 def update_products(product_id):
@@ -185,7 +186,8 @@ def update_products(product_id):
     product.deserialize(request.get_json())
     product.id = product_id
     product.save()
-    return make_response(jsonify(pet.serialize()), status.HTTP_200_OK)
+    return make_response(jsonify(product.serialize()), status.HTTP_200_OK)
+
 
 
 ######################################################################
