@@ -17,13 +17,14 @@ All of the models are stored in this module
 Models
 ------
 product - A product used in the e-commerce Store
+
 Attributes:
 -----------
 name (string) - the name of the product
 category (string) - the category the product belongs to (i.e., apparel, shoe)
 available (boolean) - True for products that are available for purchase
 price (Integer) - the price of the product
-"""
+
 import logging
 from flask_sqlalchemy import SQLAlchemy
 
@@ -37,6 +38,7 @@ class DataValidationError(Exception):
 class Products(db.Model):
     """
     Class that represents a product
+
     This version uses a relational database for persistence which is hidden
     from us by SQLAlchemy's object relational mappings (ORM)
     """
@@ -77,6 +79,7 @@ class Products(db.Model):
     def deserialize(self, data):
         """
         Deserializes a product from a dictionary
+
         Args:
             data (dict): A dictionary containing the product data
         """
@@ -123,6 +126,7 @@ class Products(db.Model):
     @classmethod
     def find_by_name(cls, name):
         """ Returns all products with the given name
+
         Args:
             name (string): the name of the products you want to match
         """
@@ -132,6 +136,7 @@ class Products(db.Model):
     @classmethod
     def find_by_category(cls, category):
         """ Returns all of the products in a category
+
         Args:
             category (string): the category of the products you want to match
         """
@@ -142,6 +147,7 @@ class Products(db.Model):
     def find_by_availability(cls, available=True):
         """ Query that finds products by their availability """
         """ Returns all products by their availability
+
         Args:
             available (boolean): True for products that are available
         """

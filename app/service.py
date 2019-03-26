@@ -107,8 +107,10 @@ def index():
 # LIST ALL Products
 ######################################################################
 @app.route('/products', methods=['GET'])
+
 def list_products():
     """ Returns all of the Products """
+
     app.logger.info('Request for product list')
     products = []
     category = request.args.get('category')
@@ -134,6 +136,7 @@ def list_products():
 def get_products(product_id):
     """
     Retrieve a single Product
+
     This endpoint will return a Product based on it's id
     """
     app.logger.info('Request for product with id: %s', product_id)
@@ -172,6 +175,7 @@ def create_products():
 def update_products(product_id):
     """
     Update a Product
+
     This endpoint will update a Product based the body that is posted
     """
     app.logger.info('Request to update product with id: %s', product_id)
@@ -185,6 +189,7 @@ def update_products(product_id):
     return make_response(jsonify(product.serialize()), status.HTTP_200_OK)
 
 
+
 ######################################################################
 # DELETE A PRODUCT
 ######################################################################
@@ -193,6 +198,7 @@ def update_products(product_id):
 def delete_product(product_id):
     """
     Delete a Product
+
     This endpoint will delete a Product based the id specified in the path
     """
     app.logger.info('Request to delete product with id: %s', product_id)
