@@ -53,42 +53,42 @@ class TestProducts(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_create_a_pro(self):
-        """ Create a pet and assert that it exists """
-        product = Products(name="Television", category="Electionics", available=True)
+    def test_create_a_product(self):
+        """ Create a product and assert that it exists """
+        product = Products(name="Television", category="Electronics", available=True)
         self.assertTrue(product != None)
         self.assertEqual(product.id, None)
         self.assertEqual(product.name, "Television")
-        self.assertEqual(product.category, "Electionics")
+        self.assertEqual(product.category, "Electronics")
         self.assertEqual(product.available, True)
 
-    def test_add_a_Products(self):
-        """ Create a pet and add it to the database """
-        pets = Pet.all()
-        self.assertEqual(pets, [])
-        pet = Products(name="fido", category="dog", available=True)
-        self.assertTrue(pet != None)
-        self.assertEqual(pet.id, None)
-        pet.save()
+    def test_add_a_product(self):
+        """ Create a product and add it to the database """
+        products = Products.all()
+        self.assertEqual(products, [])
+        product = Products(name="Television", category="Electronics", available=True)
+        self.assertTrue(product != None)
+        self.assertEqual(product.id, None)
+        product.save()
         # Asert that it was assigned an id and shows up in the database
-        self.assertEqual(pet.id, 1)
-        pets = Pet.all()
-        self.assertEqual(len(pets), 1)
+        self.assertEqual(product.id, 1)
+        products = Products.all()
+        self.assertEqual(len(products), 1)
 
-    def test_update_a_Products(self):
-        """ Update a Pet """
-        pet = Products(name="fido", category="dog", available=True)
-        pet.save()
-        self.assertEqual(pet.id, 1)
+    def test_update_a_product(self):
+        """ Update a product """
+        product = Products(name="Television", category="Electronics", available=True)
+        product.save()
+        self.assertEqual(product.id, 1)
         # Change it an save it
-        pet.category = "k9"
-        pet.save()
-        self.assertEqual(pet.id, 1)
+        product.category = "Electrionics"
+        product.save()
+        self.assertEqual(product.id, 1)
         # Fetch it back and make sure the id hasn't changed
         # but the data did change
-        pets = Pet.all()
-        self.assertEqual(len(pets), 1)
-        self.assertEqual(pets[0].category, "k9")
+        products = Products.all()
+        self.assertEqual(len(products), 1)
+        self.assertEqual(product[0].category, "Electronics")
 
     def test_delete_a_Products(self):
         """ Delete a Pet """
