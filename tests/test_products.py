@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Test cases for Pet Model
+Test cases for Products Model
 
 Test cases can be run with:
   nosetests
@@ -22,7 +22,7 @@ Test cases can be run with:
 
 import unittest
 import os
-from app.models import Pet, DataValidationError, db
+from app.models import Products, DataValidationError, db
 from app import app
 
 DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///../db/test.db')
@@ -31,7 +31,7 @@ DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///../db/test.db')
 #  T E S T   C A S E S
 ######################################################################
 class TestProducts(unittest.TestCase):
-    """ Test Cases for Pets """
+    """ Test Cases for Products """
 
     @classmethod
     def setUpClass(cls):
@@ -45,7 +45,7 @@ class TestProducts(unittest.TestCase):
         pass
 
     def setUp(self):
-        Pet.init_db(app)
+        Products.init_db(app)
         db.drop_all()    # clean up the last tests
         db.create_all()  # make our sqlalchemy tables
 
@@ -142,7 +142,7 @@ class TestProducts(unittest.TestCase):
         self.assertEqual(product.available, False)
 
     def test_find_by_category(self):
-        """ Find Pets by Category """
+        """ Find Products by Category """
         Products(name="Television", category="Electronics", available=True).save()
         Products(name="T-Shirt", category="Clothing", available=False).save()
         product = Products.find_by_category("Clothing")
@@ -151,7 +151,7 @@ class TestProducts(unittest.TestCase):
         self.assertEqual(product[0].available, False)
 
     def test_find_by_name(self):
-        """ Find a Pet by Name """
+        """ Find a Product by Name """
         Products(name="Television", category="Electronics", available=True).save()
         Products(name="T-Shirt", category="Clothing", available=False).save()
         product = Products.find_by_name("T-Shirt")
