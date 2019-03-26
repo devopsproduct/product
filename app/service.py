@@ -170,21 +170,21 @@ def create_pets():
 ######################################################################
 # UPDATE AN EXISTING PET
 ######################################################################
-@app.route('/pets/<int:pet_id>', methods=['PUT'])
-def update_pets(pet_id):
+@app.route('/products/<int:product_id>', methods=['PUT'])
+def update_products(product_id):
     """
-    Update a Pet
+    Update a Product
 
-    This endpoint will update a Pet based the body that is posted
+    This endpoint will update a Product based the body that is posted
     """
-    app.logger.info('Request to update pet with id: %s', pet_id)
+    app.logger.info('Request to update product with id: %s', product_id)
     check_content_type('application/json')
-    pet = Pet.find(pet_id)
-    if not pet:
-        raise NotFound("Pet with id '{}' was not found.".format(pet_id))
-    pet.deserialize(request.get_json())
-    pet.id = pet_id
-    pet.save()
+    product = Product.find(product_id)
+    if not product:
+        raise NotFound("Product with id '{}' was not found.".format(product_id))
+    product.deserialize(request.get_json())
+    product.id = product_id
+    product.save()
     return make_response(jsonify(pet.serialize()), status.HTTP_200_OK)
 
 
@@ -192,6 +192,7 @@ def update_pets(pet_id):
 # DELETE A PRODUCT
 ######################################################################
 @app.route('/products/<int:product_id>', methods=['DELETE'])
+
 def delete_product(product_id):
     """
     Delete a Product
@@ -211,7 +212,7 @@ def delete_product(product_id):
 def init_db():
     """ Initialies the SQLAlchemy app """
     global app
-    Pet.init_db(app)
+    Product.init_db(app)
 
 def check_content_type(content_type):
     """ Checks that the media type is correct """
