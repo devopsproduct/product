@@ -12,20 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Models for Pet Demo Service
-
+Models for products Service
 All of the models are stored in this module
-
 Models
 ------
-Pet - A Pet used in the Pet Store
-
+product - A product used in the e-commerce Store
 Attributes:
 -----------
-name (string) - the name of the pet
-category (string) - the category the pet belongs to (i.e., dog, cat)
-available (boolean) - True for pets that are available for adoption
-
+name (string) - the name of the product
+category (string) - the category the product belongs to (i.e., apparel, shoe)
+available (boolean) - True for products that are available for purchase
+price (Integer) - the price of the product
 """
 import logging
 from flask_sqlalchemy import SQLAlchemy
@@ -37,10 +34,9 @@ class DataValidationError(Exception):
     """ Used for an data validation errors when deserializing """
     pass
 
-class Pet(db.Model):
+class Products(db.Model):
     """
-    Class that represents a Pet
-
+    Class that represents a product
     This version uses a relational database for persistence which is hidden
     from us by SQLAlchemy's object relational mappings (ORM)
     """
@@ -52,45 +48,47 @@ class Pet(db.Model):
     name = db.Column(db.String(63))
     category = db.Column(db.String(63))
     available = db.Column(db.Boolean())
+    price = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<Pet %r>' % (self.name)
+        return '<product %r>' % (self.name)
 
     def save(self):
         """
-        Saves a Pet to the data store
+        Saves a product to the data store
         """
         if not self.id:
             db.session.add(self)
         db.session.commit()
 
     def delete(self):
-        """ Removes a Pet from the data store """
+        """ Removes a product from the data store """
         db.session.delete(self)
         db.session.commit()
 
     def serialize(self):
-        """ Serializes a Pet into a dictionary """
+        """ Serializes a products into a dictionary """
         return {"id": self.id,
                 "name": self.name,
                 "category": self.category,
-                "available": self.available}
+                "available": self.available,
+                "price": self.price}
 
     def deserialize(self, data):
         """
-        Deserializes a Pet from a dictionary
-
+        Deserializes a product from a dictionary
         Args:
-            data (dict): A dictionary containing the Pet data
+            data (dict): A dictionary containing the product data
         """
         try:
             self.name = data['name']
             self.category = data['category']
             self.available = data['available']
+            self.price = data['price']
         except KeyError as error:
-            raise DataValidationError('Invalid pet: missing ' + error.args[0])
+            raise DataValidationError('Invalid product: missing ' + error.args[0])
         except TypeError as error:
-            raise DataValidationError('Invalid pet: body of request contained' \
+            raise DataValidationError('Invalid product: body of request contained' \
                                       'bad or no data')
         return self
 
@@ -106,49 +104,46 @@ class Pet(db.Model):
 
     @classmethod
     def all(cls):
-        """ Returns all of the Pets in the database """
-        cls.logger.info('Processing all Pets')
+        """ Returns all of the products in the database """
+        cls.logger.info('Processing all products')
         return cls.query.all()
 
     @classmethod
-    def find(cls, pet_id):
-        """ Finds a Pet by it's ID """
-        cls.logger.info('Processing lookup for id %s ...', pet_id)
-        return cls.query.get(pet_id)
+    def find(cls, product_id):
+        """ Finds a product by it's ID """
+        cls.logger.info('Processing lookup for id %s ...', product_id)
+        return cls.query.get(product_id)
 
     @classmethod
-    def find_or_404(cls, pet_id):
-        """ Find a Pet by it's id """
-        cls.logger.info('Processing lookup or 404 for id %s ...', pet_id)
-        return cls.query.get_or_404(pet_id)
+    def find_or_404(cls, product_id):
+        """ Find a product by it's id """
+        cls.logger.info('Processing lookup or 404 for id %s ...', product_id)
+        return cls.query.get_or_404(product_id)
 
     @classmethod
     def find_by_name(cls, name):
-        """ Returns all Pets with the given name
-
+        """ Returns all products with the given name
         Args:
-            name (string): the name of the Pets you want to match
+            name (string): the name of the products you want to match
         """
         cls.logger.info('Processing name query for %s ...', name)
         return cls.query.filter(cls.name == name)
 
     @classmethod
     def find_by_category(cls, category):
-        """ Returns all of the Pets in a category
-
+        """ Returns all of the products in a category
         Args:
-            category (string): the category of the Pets you want to match
+            category (string): the category of the products you want to match
         """
         cls.logger.info('Processing category query for %s ...', category)
         return cls.query.filter(cls.category == category)
 
     @classmethod
     def find_by_availability(cls, available=True):
-        """ Query that finds Pets by their availability """
-        """ Returns all Pets by their availability
-
+        """ Query that finds products by their availability """
+        """ Returns all products by their availability
         Args:
-            available (boolean): True for pets that are available
+            available (boolean): True for products that are available
         """
         cls.logger.info('Processing available query for %s ...', available)
         return cls.query.filter(cls.available == available)
