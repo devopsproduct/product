@@ -13,9 +13,7 @@
 # limitations under the License.
 """
 Models for products Service
-
 All of the models are stored in this module
-
 Models
 ------
 product - A product used in the e-commerce Store
@@ -26,8 +24,7 @@ name (string) - the name of the product
 category (string) - the category the product belongs to (i.e., apparel, shoe)
 available (boolean) - True for products that are available for purchase
 price (Integer) - the price of the product
-
-"""
+""" 
 import logging
 from flask_sqlalchemy import SQLAlchemy
 
@@ -35,7 +32,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class DataValidationError(Exception):
-    """ Used for an data validation errors when deserializing """
+    # Used for an data validation errors when deserializing
     pass
 
 class Products(db.Model):
