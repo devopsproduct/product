@@ -1,4 +1,5 @@
-# product
+# Products RESTful API
+_Shilpi, Kraz, Nate Dogg and MP_
 
 
 
