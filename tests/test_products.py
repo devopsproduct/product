@@ -111,7 +111,7 @@ class TestProducts(unittest.TestCase):
         self.assertIn('category', data)
         self.assertEqual(data['category'], "Electronics")
         self.assertIn('available', data)
-        self.assertEqual(data['available'], False)
+        self.assertEqual(data['available'], True)
 
     def test_deserialize_a_product(self):
         """ Test deserialization of a product """
