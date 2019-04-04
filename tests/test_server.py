@@ -61,7 +61,7 @@ class TestProductsServer(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def _create_productss(self, count):
+    def _create_products(self, count):
         """ Factory method to create products in bulk """
         products = []
         for _ in range(count):
