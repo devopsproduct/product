@@ -88,7 +88,7 @@ class TestProducts(unittest.TestCase):
         # but the data did change
         products = Products.all()
         self.assertEqual(len(products), 1)
-        self.assertEqual(product[0].category, "Electronics")
+        self.assertEqual(product[1].category, "Electronics")
 
     def test_delete_a_product(self):
         """ Delete a product """
@@ -115,7 +115,7 @@ class TestProducts(unittest.TestCase):
 
     def test_deserialize_a_product(self):
         """ Test deserialization of a product """
-        data = {"id": 1, "name": "T-Shirt", "category": "Clothing", "available": True, "Price": 35}
+        data = {"id": 1, "name": "T-Shirt", "category": "Clothing", "available": True, "price": 35}
         product = Products()
         product.deserialize(data)
         self.assertNotEqual(product, None)
