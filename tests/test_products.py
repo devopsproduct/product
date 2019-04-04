@@ -81,14 +81,14 @@ class TestProducts(unittest.TestCase):
         product.save()
         self.assertEqual(product.id, 1)
         # Change it an save it
-        product.category = "Electronics"
+        product.category = "HD"
         product.save()
         self.assertEqual(product.id, 1)
         # Fetch it back and make sure the id hasn't changed
         # but the data did change
-        products = Products.all()
+        products = product.all()
         self.assertEqual(len(products), 1)
-        self.assertEqual(product[1].category, "Electronics")
+        self.assertEqual(products[0].category, "HD")
 
     def test_delete_a_product(self):
         """ Delete a product """
