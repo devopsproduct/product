@@ -194,7 +194,34 @@ class TestProductsServer(unittest.TestCase):
             """ Test a sending invalid http method """
             resp = self.app.post('/products/1')
             self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-            
+
+    @mock.patch('app.service.Products.find_by_name')
+    def test_search_bad_data(self, products_find_mock):
+        """ Test a search that returns bad data """
+        products_find_mock.return_value = None
+        resp = self.app.get('/products', query_string='name=widget1')
+        self.assertEqual(resp.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @mock.patch('app.service.Products.find_by_name')
+    def test_mediatype_not_supported(self, media_mock):
+         """ Handles unsuppoted media requests with 415_UNSUPPORTED_MEDIA_TYPE """
+         media_mock.side_effect = DataValidationError()
+         resp = self.app.post('/products', query_string='name=widget1', content_type='application/pdf')
+         self.assertEqual(resp.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+
+    @mock.patch('app.service.Products.find_by_name')
+    def test_method_not_supported(self, method_mock):
+         """ Handles unsuppoted HTTP methods with 405_METHOD_NOT_SUPPORTED """
+         method_mock.side_effect = None
+         resp = self.app.put('/products', query_string='name=widget1')
+         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @mock.patch('app.service.Products.find_by_name')
+    def test_bad_request(self, bad_request_mock):
+         """ Test a Bad Request error from Find By Name """
+         bad_request_mock.side_effect = DataValidationError()
+         resp = self.app.get('/products', query_string='name=widget1')
+         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
     # @patch('app.service.product.find_by_name')
     # def test_bad_request(self, bad_request_mock):
     #     """ Test a Bad Request error from Find By Name """
