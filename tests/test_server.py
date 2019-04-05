@@ -20,7 +20,7 @@ Test cases can be run with the following:
   coverage report -m
   codecov --token=$CODECOV_TOKEN
 """
-
+import mock
 import unittest
 import os
 import logging
