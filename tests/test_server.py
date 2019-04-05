@@ -148,6 +148,14 @@ class TestProductsServer(unittest.TestCase):
         updated_product = resp.get_json()
         self.assertEqual(updated_product['category'], 'unknown')
 
+    def test_update_product_not_found(self):
+        """ Update a product that is not found """
+        test_product = ProductFactory()
+        resp = self.app.put('/products/0',
+                            json=test_product.serialize(),
+                            content_type='application/json')
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_delete_product(self):
         """ Delete a Product """
         test_product = self._create_products(1)[0]
@@ -159,6 +167,14 @@ class TestProductsServer(unittest.TestCase):
         resp = self.app.get('/products/{}'.format(test_product.id),
                             content_type='application/json')
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_get_product_list(self):
+        """ Get a list of Orders """
+        self._create_products(5)
+        resp = self.app.get('/products')
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        data = resp.get_json()
+        self.assertEqual(len(data), 5)
 
     def test_query_product_list_by_category(self):
         """ Query Proucts by Category """
@@ -174,6 +190,10 @@ class TestProductsServer(unittest.TestCase):
         for product in data:
             self.assertEqual(product['category'], test_category)
 
+    def test_method_not_allowed(self):
+            """ Test a sending invalid http method """
+            resp = self.app.post('/products/1')
+            self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED
     # @patch('app.service.product.find_by_name')
     # def test_bad_request(self, bad_request_mock):
     #     """ Test a Bad Request error from Find By Name """
