@@ -193,7 +193,8 @@ class TestProductsServer(unittest.TestCase):
     def test_method_not_allowed(self):
             """ Test a sending invalid http method """
             resp = self.app.post('/products/1')
-            self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED
+            self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+            
     # @patch('app.service.product.find_by_name')
     # def test_bad_request(self, bad_request_mock):
     #     """ Test a Bad Request error from Find By Name """
