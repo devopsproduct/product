@@ -6,6 +6,23 @@ _Shilpi, Kraz, Nate Dogg and MP_
 ### Post SSH
 CD to /vagrant out of the default SSH directory of home/vagrant.
 
-### PyLint
-To run pylint
-`pylint --disable=no-member app`
+
+### Testing
+Manually running the Tests
+Run the tests using pytest
+
+$ pytest
+
+pytest is configured via the included pytest.ini file to automatically include the flags --with-spec --spec-color so that red-green-refactor is meaningful. If you are in a command shell that supports colors, passing tests will be green while failing tests will be red.
+
+pytest is also configured to automatically run the coverage tool and you should see a percentage of coverage report at the end of your tests. If you want to see what lines of code were not tested use:
+
+$ coverage report -m
+
+This is particularly useful because it reports the line numbers for the code that is not covered so that you can write more test cases to get higher code coverage.
+
+It's also a good idea to make sure that your Python code follows the PEP8 standard. flake8 has been included in the requirements.txt file so that you can check if your code is compliant like this:
+
+$ flake8 --count --max-complexity=10 --statistics model,service
+
+I've also include pylint in the requirements. If you use a programmer's editor like Atom.io you can install plug-ins that will use pylint while you are editing. This catches a lot of errors while you code that would normally be caught at runtime. It's a good idea to always code with pylint active.
