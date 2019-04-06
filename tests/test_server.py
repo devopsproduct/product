@@ -148,6 +148,25 @@ class TestProductsServer(unittest.TestCase):
         updated_product = resp.get_json()
         self.assertEqual(updated_product['category'], 'unknown')
 
+    def test_unavailable_products(self):
+        """ Update an existing product to unavailable """
+        # create a product to update
+        test_product = ProductFactory()
+        resp = self.app.post('/products',
+                             json=test_product.serialize(),
+                             content_type='application/json')
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # update the product
+        new_product = resp.get_json()
+        new_product['available'] = True
+        resp = self.app.put('/products/{}/unavailable'.format(new_product['id']),
+                            json=new_product,
+                            content_type='application/json')
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        updated_product = resp.get_json()
+        self.assertEqual(updated_product['available'], False)
+
     def test_update_product_not_found(self):
         """ Update a product that is not found """
         test_product = ProductFactory()
