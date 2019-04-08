@@ -188,7 +188,21 @@ def update_products(product_id):
     product.save()
     return make_response(jsonify(product.serialize()), status.HTTP_200_OK)
 
+@app.route('/products/<int:product_id>/unavailable', methods=['PUT'])
+def unavailable_products(product_id):
+    """
+    Make a product unavailable
 
+    This endpoint will update a Product to be unavailable 
+    """
+    app.logger.info('Request to update product with id: %s', product_id)
+    product = Products.find(product_id)
+    if not product:
+        raise NotFound("Product with id '{}' was not found.".format(product_id))
+    product.id = product_id
+    product.available=False
+    product.save()
+    return make_response(jsonify(product.serialize()), status.HTTP_200_OK)
 
 ######################################################################
 # DELETE A PRODUCT
