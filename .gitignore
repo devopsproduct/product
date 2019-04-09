@@ -108,5 +108,5 @@ venv.bak/
 
 #DS Store
 .DS_Store
-.vagrant*
-.vs*
+.vs
+.vagrant
