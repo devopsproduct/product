@@ -11,6 +11,7 @@ before_script: redis-cli ping
 
 script:
   - nosetests
+  - nosetests --with-coverage --cover-erase
 
 #after_success:
 #  - codecov
