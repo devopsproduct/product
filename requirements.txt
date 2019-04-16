@@ -3,6 +3,8 @@ Flask==1.0.2
 Flask-API==1.1
 Flask-SQLAlchemy==2.3.2
 SQLAlchemy==1.2.12
+ibm-db==2.0.9
+ibm-db-sa==0.3.2
 
 # Runtime
 gunicorn==19.9.0
