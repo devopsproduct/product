@@ -10,9 +10,9 @@ This repository will be used to create the Products microservice
 ### Installation using Vagrant
 The easiest way to use this repo is with Vagrant and VirtualBox. if you don't have this software the first step is down download and install it.
 
-Download [VirtualBox] (https://www.virtualbox.org)
+Download [VirtualBox](https://www.virtualbox.org)
 
-Download [Vagrant] (https://www.vagrantup.com)
+Download [Vagrant](https://www.vagrantup.com)
 
 Then all you have to do is clone this repo and invoke vagrant:
 
