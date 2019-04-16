@@ -120,7 +120,7 @@ Vagrant.configure("2") do |config|
   end
 
   # install docker-compose in the VM
-  config.vm.provision :docker_compose
+  # config.vm.provision :docker_compose
 
   # Create the database after Docker is running
   config.vm.provision :shell, inline: <<-SHELL
