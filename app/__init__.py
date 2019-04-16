@@ -15,7 +15,10 @@ from app.vcap_services import get_database_uri
 app = Flask(__name__)
 # We'll just use SQLite here so we don't need an external database
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db/development.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = get_database_uri()
+
+# HARDCODING THE URI
+# app.config['SQLALCHEMY_DATABASE_URI'] = get_database_uri()
+app.config['SQLALCHEMY_DATABASE_URI'] = "db2://scs54547:f7g9vsl%5E4r0t5m47@dashdb-txn-sbox-yp-dal09-03.services.dal.bluemix.net:50000/BLUDB"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'please, tell nobody... Shhhh'
 app.config['LOGGING_LEVEL'] = logging.INFO
