@@ -15,7 +15,7 @@ services:
 
   postgres:
     image: postgres:alpine
-    hostname: postgres
+    hostname: postgresql
     ports:
       - 5432:5432
     volumes:
