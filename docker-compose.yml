@@ -1,0 +1,32 @@
+---
+version: '3'
+services:
+  web:
+    build: .
+    image: lab-flask-sqlalchemy
+    ports:
+      - 5000:5000
+    environment:
+      DATABASE_URI: "postgres://postgres:passw0rd@postgres:5432/postgres"
+    depends_on:
+      - postgres
+    networks:
+      - web
+
+  postgres:
+    image: postgres:alpine
+    hostname: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - psql_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: passw0rd
+    networks:
+      - web
+
+volumes:
+  psql_data:
+
+networks:
+  web:
