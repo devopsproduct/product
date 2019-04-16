@@ -9,11 +9,13 @@ import logging
 from flask import Flask
 # Since we're using IBM DB2, we need to import the dependencies
 import ibm_db_sa
+from app.vcap_services import get_database_uri
 
 # Create Flask application
 app = Flask(__name__)
 # We'll just use SQLite here so we don't need an external database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db/development.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db/development.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = get_database_uri()
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'please, tell nobody... Shhhh'
 app.config['LOGGING_LEVEL'] = logging.INFO
