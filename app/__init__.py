@@ -9,7 +9,7 @@ import logging
 from flask import Flask
 # Since we're using IBM DB2, we need to import the dependencies
 import ibm_db_sa
-from vcap_services import get_database_uri
+from app.vcap_services import get_database_uri
 
 # Create Flask application
 app = Flask(__name__)
