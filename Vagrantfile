@@ -110,6 +110,35 @@ Vagrant.configure("2") do |config|
   end
 
   ######################################################################
+  # Add PostgreSQL docker container
+  ######################################################################
+  # docker run -d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data postgres
+  config.vm.provision :docker do |d|
+    d.pull_images "postgres:alpine"
+    d.run "postgres",
+       args: "-d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data"
+  end
+
+  # install docker-compose in the VM
+  config.vm.provision :docker_compose
+
+  # Create the database after Docker is running
+  config.vm.provision :shell, inline: <<-SHELL
+    # Wait for mariadb to come up
+    echo "Waiting 20 seconds for PostgreSQL to start..."
+    sleep 10
+    echo "10 seconds Bob..."
+    sleep 10
+    cd /vagrant
+    # docker exec postgres psql -U postgres -c "CREATE DATABASE development;"
+    # docker exec postgres psql -U postgres -c "CREATE DATABASE test;"
+    # flask db init
+    # flask db migrate
+    flask db upgrade
+    cd
+  SHELL
+
+  ######################################################################
   # Setup a Bluemix and Kubernetes environment
   ######################################################################
   config.vm.provision "shell", inline: <<-SHELL
