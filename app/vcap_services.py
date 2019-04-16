@@ -42,7 +42,7 @@ def get_database_uri():
         creds = services['dashDB For Transactions'][0]['credentials']
         database_uri = creds["uri"]
     else:
-        curent_app.logger.info("Using localhost database...")
+        current_app.logger.info("Using localhost database...")
         database_uri = "postgres://postgres:postgres@localhost:5432/postgres"
 
     return database_uri
