@@ -1,14 +1,18 @@
 # Products RESTful API
 _Shilpi, Kraz, Nate Dogg and MP_
 
+Products Microservice for DevOps and Agile Methodologies Stern MBA Class
+
+This repository will be used to create the Products microservice
+
 [![Build Status](https://travis-ci.org/devopsproducts/products.svg?branch=master)](https://travis-ci.org/devopsproducts/products)
 
 ### Installation using Vagrant
 The easiest way to use this repo is with Vagrant and VirtualBox. if you don't have this software the first step is down download and install it.
 
-Download VirtualBox
+Download [VirtualBox] (https://www.virtualbox.org)
 
-Download Vagrant
+Download [Vagrant] (https://www.vagrantup.com)
 
 Then all you have to do is clone this repo and invoke vagrant:
 
@@ -19,13 +23,15 @@ vagrant ssh
 _CD to /vagrant out of the default SSH directory of home/vagrant_
 cd /vagrant
 
+Now you can run 'pytest' to run the tests. Always run test cases before changing any code.
 
 
 ### Testing
-Manually running the Tests
-Run the tests using pytest
+#### Manually running the Tests
 
-$ pytest
+Run the tests using 'pytest'
+
+'$ pytest'
 
 pytest is configured via the included pytest.ini file to automatically include the flags --with-spec --spec-color so that red-green-refactor is meaningful. If you are in a command shell that supports colors, passing tests will be green while failing tests will be red.
 
