@@ -7,6 +7,8 @@ This module also sets up the logging to be used with gunicorn
 
 import logging
 from flask import Flask
+# Since we're using IBM DB2, we need to import the dependencies
+import ibm_db_sa
 
 # Create Flask application
 app = Flask(__name__)
