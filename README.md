@@ -17,7 +17,7 @@ Download [Vagrant](https://www.vagrantup.com)
 Then all you have to do is clone this repo and invoke vagrant:
 
 ```
-git clone https://github.com/devopsproducts/products.git
+[git clone](https://github.com/devopsproducts/products.git)
 cd orders
 vagrant up
 vagrant ssh
