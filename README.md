@@ -2,7 +2,7 @@
 _Shilpi, Kraz, Nate Dogg and MP_
 
 [![Build Status](https://travis-ci.org/devopsproducts/products.svg?branch=master)](https://travis-ci.org/devopsproducts/products)
-Test of Travis
+
 ### Installation using Vagrant
 The easiest way to use this repo is with Vagrant and VirtualBox. if you don't have this software the first step is down download and install it.
 
