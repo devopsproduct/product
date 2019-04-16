@@ -7,7 +7,6 @@ This module also sets up the logging to be used with gunicorn
 
 import logging
 from flask import Flask
-from .static.home_page import HomePage
 
 # Create Flask application
 app = Flask(__name__)
@@ -16,7 +15,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db/development.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'please, tell nobody... Shhhh'
 app.config['LOGGING_LEVEL'] = logging.INFO
-app.add_resource(HomePage, '/')
 
 import service
 
