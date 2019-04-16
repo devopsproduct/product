@@ -67,6 +67,11 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
   end
 
+  # Copy your IBM Clouid API Key if you have one
+  if File.exists?(File.expand_path("~/.bluemix/apiKey.json"))
+    config.vm.provision "file", source: "~/.bluemix/apiKey.json", destination: "~/.bluemix/apiKey.json"
+  end
+
   # Copy your ssh keys file so that your git credentials are correct
   if File.exists?(File.expand_path("~/.ssh/id_rsa"))
     config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
@@ -103,6 +108,35 @@ Vagrant.configure("2") do |config|
     d.run "redis:alpine",
       args: "--restart=always -d --name redis -h redis -p 6379:6379 -v /var/lib/redis/data:/data"
   end
+
+  ######################################################################
+  # Add PostgreSQL docker container
+  ######################################################################
+  # docker run -d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data postgres
+  config.vm.provision :docker do |d|
+    d.pull_images "postgres:alpine"
+    d.run "postgres",
+       args: "-d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data"
+  end
+
+  # install docker-compose in the VM
+  # config.vm.provision :docker_compose
+
+  # Create the database after Docker is running
+  config.vm.provision :shell, inline: <<-SHELL
+    # Wait for mariadb to come up
+    echo "Waiting 20 seconds for PostgreSQL to start..."
+    sleep 10
+    echo "10 seconds Bob..."
+    sleep 10
+    cd /vagrant
+    # docker exec postgres psql -U postgres -c "CREATE DATABASE development;"
+    # docker exec postgres psql -U postgres -c "CREATE DATABASE test;"
+    # flask db init
+    # flask db migrate
+    flask db upgrade
+    cd
+  SHELL
 
   ######################################################################
   # Setup a Bluemix and Kubernetes environment
