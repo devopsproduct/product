@@ -1,3 +1,4 @@
+language: python
 python:
   - "2.7"
 
@@ -9,9 +10,10 @@ before_script: redis-cli ping
 
 script:
   - nosetests --with-coverage --cover-erase
+  - pytest
 
-#after_success:
-#  - codecov
+after_success:
+  - codecov
 
 services:
   - redis-server

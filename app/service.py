@@ -153,7 +153,7 @@ def get_products(product_id):
 def create_products():
     """
     Creates a Product
-    This endpoint will create a Product based the data in the body that is posted
+    This endpoint will create a Product based on the data in the body that is posted
     """
     app.logger.info('Request to create a product')
     check_content_type('application/json')
