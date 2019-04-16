@@ -19,7 +19,7 @@ from VCAP_SERVICES in Bluemix if Found
 """
 import os
 import json
-from service import app
+from flask import current_app
 
 def get_database_uri():
     """
