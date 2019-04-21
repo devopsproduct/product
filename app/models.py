@@ -50,7 +50,7 @@ class Products(db.Model):
     name = db.Column(db.String(63))
     category = db.Column(db.String(63))
     available = db.Column(db.Boolean())
-    price = db.Column(db.Integer)
+    price = db.Column(db.Decimal(38,2))
 
     def __repr__(self):
         return '<product %r>' % (self.name)
