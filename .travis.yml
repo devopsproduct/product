@@ -19,3 +19,10 @@ after_success:
 
 services:
   - postgresql
+
+env:
+  global:
+    - DB_HOST=127.0.0.1
+    - DB_NAME=flaskProducts
+    - DB_USER=flaskProductUser
+    - DB_PASSWORD=flaskProductPW
