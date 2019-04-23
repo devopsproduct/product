@@ -5,6 +5,11 @@ python:
 
 # Taken from https://github.com/angoca/db2-travis/blob/master/.travis.yml
 before_install:
+    # Parallel download
+  - mvn > /dev/null &
+  - sudo apt-get install aria2 curl -y
+  - sudo bash ./travis/update.sh > /tmp/apt.output &
+
   # Retrieves and extracts the DB2 binaries
   # If it does not work, change it according to the next page:
   # https://raw.githubusercontent.com/wiki/angoca/db2-travis/db2-link-expc.md
