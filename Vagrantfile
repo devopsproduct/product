@@ -110,13 +110,12 @@ Vagrant.configure("2") do |config|
   end
 
   ######################################################################
-  # Add PostgreSQL docker container
-  ######################################################################
-  # docker run -d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data postgres
+  # Add DB2 docker container
+  ######################################################################S
   config.vm.provision :docker do |d|
-    d.pull_images "postgres:alpine"
+    d.pull_images "ibmcom/db2express-c"
     d.run "postgres",
-       args: "-d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data"
+       args: "-it -p 50000:50000 -e DB2INST1_PASSWORD=db2inst1-pwd -e LICENSE=accept ibmcom/db2express-c:latest bash"
   end
 
   # install docker-compose in the VM
@@ -125,13 +124,14 @@ Vagrant.configure("2") do |config|
   # Create the database after Docker is running
   config.vm.provision :shell, inline: <<-SHELL
     # Wait for mariadb to come up
-    echo "Waiting 20 seconds for PostgreSQL to start..."
+    echo "Waiting 20 seconds for DB2 to start..."
     sleep 10
     echo "10 seconds Bob..."
     sleep 10
     cd /vagrant
-    # docker exec postgres psql -U postgres -c "CREATE DATABASE development;"
-    # docker exec postgres psql -U postgres -c "CREATE DATABASE test;"
+    # docker exec su - db2inst1;"
+    # docker exec db2start;"
+    # docker exec db2create db products
     # flask db init
     # flask db migrate
     flask db upgrade
