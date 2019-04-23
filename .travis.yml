@@ -3,8 +3,47 @@ language: python
 python:
   - "2.7"
 
+# Taken from https://github.com/angoca/db2-travis/blob/master/.travis.yml
+before_install:
+  # Retrieves and extracts the DB2 binaries
+  # If it does not work, change it according to the next page:
+  # https://raw.githubusercontent.com/wiki/angoca/db2-travis/db2-link-expc.md
+  - DOWNLOAD_LINK=$(curl --url https://raw.githubusercontent.com/wiki/angoca/db2-travis/db2-link-expc.md -s | tail -1) ; echo ${DOWNLOAD_LINK} ; cd /tmp ; aria2c -x 16 ${DOWNLOAD_LINK} ; tar zxvf v11.1*_linuxx64_expc.tar.gz
+
+  # Retrieves and extract log4db2
+  - cd ; wget https://github.com/angoca/log4db2/releases/download/log4db2-1-Beta-A/log4db2.tar.gz ; tar zxvf log4db2.tar.gz
+
+  # Retrieves and extract db2unit
+  - cd ; wget https://github.com/angoca/db2unit/releases/download/db2unit-1/db2unit.tar.gz ; tar zxvf db2unit.tar.gz
+
+  # INSTALL
+
+  - while [[ "$(tail -1 /tmp/apt.output)" != "Finished" ]] ; do grep ">>" /tmp/apt.output ; sleep 2 ; done ; cat /tmp/apt.output
+  - sudo l n-s /lib/i386-linux-gnu/libpam.so.0 /lib/libpam.so.0
+
+  # Checks the prerequisites
+  - cd /tmp/expc ; ./db2prereqcheck -l -i
+  # Install DB2 and creates an instance (Response file)
+  - sudo ./db2setup -r  ${TRAVIS_BUILD_DIR}/travis/db2.rsp || cat /tmp/db2setup.log
+  # Changes the security
+  - sudo usermod -a -G db2iadm1 $USER
+  - sudo chsh -s /bin/bash db2inst1
+  - sudo su - db2inst1 -c "db2 update dbm cfg using SYSADM_GROUP db2iadm1 ; db2stop ; db2start"
+  # Creates the database
+  - sudo su - db2inst1 -c "db2 create db travis ; db2 connect to travis ; db2 grant dbadm on database to user $USER"
+  - . ~db2inst1/sqllib/db2profile ; db2 connect to travis
+
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install: 
+  - pip install -r requirements.txt
+  # Install log4db2
+  - cd ; cd log4db2 ; . ./install
+
+  # Install db2unit
+  - cd ; cd db2unit ; . ./install
+
+  # Install your code
+  # - db2 -tf xxx
 
 # commands to run tests
 before_script: redis-cli ping
@@ -16,5 +55,14 @@ script:
 after_success:
   - codecov
 
-services:
-  - redis-server
+after_failure:
+  # If there is any error, shows the logs
+  - cat /home/db2inst1/sqllib/db2dump/db2diag.log
+  - db2 "call logadmin.logs"
+  - db2 "select * from DB2UNIT_1.EXECUTION_REPORTS"
+  - db2 "select * from MY_SUITE.REPORT_TESTS"
+  - db2 "export to /tmp/sorts.txt of del select * from DB2UNIT_1.SORTS" ; cat /tmp/sorts.txt
+  - cat /home/db2inst1/sqllib/db2dump/db2diag.log
+
+after_script:
+  - . ~db2inst1/sqllib/db2profile ; db2 "CALL DB2UNIT.REPORT_RECENT_EXECUTIONS"
