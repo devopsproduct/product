@@ -9,6 +9,7 @@ $(function () {
         $("#product_id").val(res.id);
         $("#product_name").val(res.name);
         $("#product_category").val(res.category);
+        $("#product_price").val(res.category);
         if (res.available == true) {
             $("#product_available").val("true");
         } else {
@@ -21,6 +22,7 @@ $(function () {
         $("#product_name").val("");
         $("#product_category").val("");
         $("#product_available").val("");
+        $("#product_price").val("");
     }
 
     // Updates the flash message area
@@ -37,12 +39,14 @@ $(function () {
 
         var name = $("#product_name").val();
         var category = $("#product_category").val();
+        var price = $("#product_price").val();
         var available = $("#product_available").val() == "true";
 
         var data = {
             "name": name,
             "category": category,
-            "available": available
+            "available": available,
+            "price": price,
         };
 
         var ajax = $.ajax({
@@ -72,12 +76,14 @@ $(function () {
         var product_id = $("#product_id").val();
         var name = $("#product_name").val();
         var category = $("#product_category").val();
+        var price = $("#product_price").val();
         var available = $("#product_available").val() == "true";
 
         var data = {
             "name": name,
             "category": category,
-            "available": available
+            "available": available,
+            "price": price
         };
 
         var ajax = $.ajax({
@@ -168,6 +174,7 @@ $(function () {
 
         var name = $("#product_name").val();
         var category = $("#product_category").val();
+        var price = $("#product_price").val();
         var available = $("#product_available").val() == "true";
 
         var queryString = ""
@@ -187,6 +194,13 @@ $(function () {
                 queryString += '&available=' + available
             } else {
                 queryString += 'available=' + available
+            }
+        }
+        if (price) {
+            if (queryString.length > 0) {
+                queryString += '&price=' + price
+            } else {
+                queryString += 'price=' + price
             }
         }
 
