@@ -3,6 +3,7 @@ language: python
 python:
   - "2.7"
 
+<<<<<<< HEAD
 # Taken from https://github.com/angoca/db2-travis/blob/master/.travis.yml
 before_install:
     # Parallel download
@@ -38,17 +39,10 @@ before_install:
   - sudo su - db2inst1 -c "db2 create db travis ; db2 connect to travis ; db2 grant dbadm on database to user $USER"
   - . ~db2inst1/sqllib/db2profile ; db2 connect to travis
 
+=======
+>>>>>>> parent of 8c3238f... Adding the Travis DB2 stuff from GitHub
 # command to install dependencies
-install: 
-  - pip install -r requirements.txt
-  # Install log4db2
-  - cd ; cd log4db2 ; . ./install
-
-  # Install db2unit
-  - cd ; cd db2unit ; . ./install
-
-  # Install your code
-  # - db2 -tf xxx
+install: "pip install -r requirements.txt"
 
 # commands to run tests
 before_script: redis-cli ping
@@ -60,14 +54,5 @@ script:
 after_success:
   - codecov
 
-after_failure:
-  # If there is any error, shows the logs
-  - cat /home/db2inst1/sqllib/db2dump/db2diag.log
-  - db2 "call logadmin.logs"
-  - db2 "select * from DB2UNIT_1.EXECUTION_REPORTS"
-  - db2 "select * from MY_SUITE.REPORT_TESTS"
-  - db2 "export to /tmp/sorts.txt of del select * from DB2UNIT_1.SORTS" ; cat /tmp/sorts.txt
-  - cat /home/db2inst1/sqllib/db2dump/db2diag.log
-
-after_script:
-  - . ~db2inst1/sqllib/db2profile ; db2 "CALL DB2UNIT.REPORT_RECENT_EXECUTIONS"
+services:
+  - redis-server
