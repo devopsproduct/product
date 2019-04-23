@@ -7,7 +7,8 @@ python:
 install: "pip install -r requirements.txt"
 
 # commands to run tests
-before_script: redis-cli ping
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
 
 script:
   - nosetests --with-coverage
@@ -17,4 +18,4 @@ after_success:
   - codecov
 
 services:
-  - redis-server
+  - postgresql
