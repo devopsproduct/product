@@ -93,50 +93,27 @@ Vagrant.configure("2") do |config|
     sudo pip install -r requirements.txt
   SHELL
 
+
   ######################################################################
-  # Add Redis docker container
+  # Create .env file
   ######################################################################
   config.vm.provision "shell", inline: <<-SHELL
-    # Prepare Redis data share
-    sudo mkdir -p /var/lib/redis/data
-    sudo chown ubuntu:ubuntu /var/lib/redis/data
+    echo "Creating /vagrant/.env"
+    rm -rf /vagrant/.env
+    touch /vagrant/.env
+    chown vagrant:vagrant /vagrant/.env
+    echo "DB_HOST = localhost \nDB_NAME = flaskProducts \nDB_USER = flaskProductUser  \nDB_PASSWORD = flaskProductPW\n" >/vagrant/.env
   SHELL
 
-  # Add Redis docker container
-  config.vm.provision "docker" do |d|
-    d.pull_images "redis:alpine"
-    d.run "redis:alpine",
-      args: "--restart=always -d --name redis -h redis -p 6379:6379 -v /var/lib/redis/data:/data"
-  end
-
+  # !!! Check LogIn via Orders Team !!! #
   ######################################################################
-  # Add DB2 docker container
-  ######################################################################S
-  config.vm.provision :docker do |d|
-    d.pull_images "ibmcom/db2express-c"
-    d.run "postgres",
-       args: "-it -p 50000:50000 -e DB2INST1_PASSWORD=db2inst1-pwd -e LICENSE=accept ibmcom/db2express-c:latest bash"
-  end
-
-  # install docker-compose in the VM
-  # config.vm.provision :docker_compose
-
-  # Create the database after Docker is running
-  config.vm.provision :shell, inline: <<-SHELL
-    # Wait for mariadb to come up
-    echo "Waiting 20 seconds for DB2 to start..."
-    sleep 10
-    echo "10 seconds Bob..."
-    sleep 10
-    cd /vagrant
-    # docker exec su - db2inst1;"
-    # docker exec db2start;"
-    # docker exec db2create db products
-    # flask db init
-    # flask db migrate
-    flask db upgrade
-    cd
-  SHELL
+  # Add Postgres docker container
+  ######################################################################
+   config.vm.provision "docker" do |d|
+     d.pull_images "postgres:11-alpine"
+     d.run "postgres:11-alpine",
+       args: "--restart=always -d --name psql -h psql -p 5432:5432 -v /var/docker/postgresql:/data -e POSTGRES_PASSWORD=flaskProductPW -e POSTGRES_USER=flaskProductUser -e POSTGRES_DB=flaskProducts"
+   end
 
   ######################################################################
   # Setup a Bluemix and Kubernetes environment
