@@ -52,3 +52,12 @@ Scenario: Update a Product
     And I press the "Search" button
     Then I should see "gucci" in the results
     Then I should not see "guess" in the results
+
+ Scenario: Delete a Product
+    When I visit the "Home Page"
+    And I set the "Id" to "1"
+    And I press the "Retrieve" button
+    Then I should see "guess" in the "name" field
+    When I set the "Id" to "1"
+    And I press the "Delete" button
+    Then I should no longer see "guess"
