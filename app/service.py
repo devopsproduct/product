@@ -205,7 +205,7 @@ def unavailable_products(product_id):
     if not product:
         raise NotFound("Product with id '{}' was not found.".format(product_id))
     product.id = product_id
-    product.available=False
+    product.available = False
     product.save()
     return make_response(jsonify(product.serialize()), status.HTTP_200_OK)
 
@@ -214,8 +214,6 @@ def unavailable_products(product_id):
 ######################################################################
 
 @app.route('/products/<int:product_id>', methods=['DELETE'])
-
-
 def delete_product(product_id):
     """
     Delete a Product
@@ -226,6 +224,15 @@ def delete_product(product_id):
     product = Products.find(product_id)
     if product:
         product.delete()
+    return make_response('', status.HTTP_204_NO_CONTENT)
+
+######################################################################
+#  Delete ALL DATA!!! For Testing Only
+######################################################################
+@app.route('/products/reset', methods=['DELETE'])
+def reset_all():
+    ''' Removes all products from the DB '''
+    Products.delete_all()
     return make_response('', status.HTTP_204_NO_CONTENT)
 
 ######################################################################

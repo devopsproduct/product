@@ -188,6 +188,15 @@ class TestProductsServer(unittest.TestCase):
                             content_type='application/json')
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_delete_all(self):
+        """ Delete DB """
+        self._create_products(5)
+        resp = self.app.get('/products')
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        resp = self.app.delete('/products/reset',
+                               content_type='application/json')
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+
     def test_get_product_list(self):
         """ Get a list of Orders """
         self._create_products(5)
