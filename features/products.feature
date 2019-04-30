@@ -20,6 +20,7 @@ Scenario: Create a Product
     When I visit the "Home Page"
     And I set the "Name" to "nike"
     And I set the "Category" to "bag"
+    And I set the "Price" to "39.99"
     And I select "True" in the "Available" dropdown
     And I press the "Create" button
     Then I should see the message "Success"
