@@ -18,9 +18,9 @@ install: "pip install -r requirements.txt"
 
 # commands to run tests
 before_script:
-  - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS postgres;' -U postgres; fi"
-  - psql -c 'create database postgres;' -U postgres
-  - python run.py &
+#  - sh -c "if [ '$DB' = 'postgres' ]; then psql -c 'DROP DATABASE IF EXISTS postgres;' -U postgres; fi"
+#  - psql -c 'create database postgres;' -U postgres
+#  - python run.py &
 
 script:
   - nosetests --with-coverage
