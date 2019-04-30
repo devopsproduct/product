@@ -9,9 +9,9 @@ services:
 env:
   global:
     - DB_HOST=127.0.0.1
-    - DB_NAME=flaskProducts
+    - DB_NAME=postgres
     - DB_USER=postgres
-    - DB_PASSWORD=
+    - DB_PASSWORD=postgres
 
 # command to install dependencies
 install: "pip install -r requirements.txt"
