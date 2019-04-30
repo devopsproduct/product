@@ -43,6 +43,6 @@ def get_database_uri():
         database_uri = creds["uri"]
     else:
         Products.logger.info("Using localhost database...")
-        database_uri = "postgres://flaskProductUser:flaskProductPW@localhost:5432/flaskProducts"
+        database_uri = "postgres://postgres:postgres@localhost:5432/postgres"
 
     return database_uri
