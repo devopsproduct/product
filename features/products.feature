@@ -5,10 +5,11 @@ Feature: The product store service back-end
 
 Background:
     Given the following products
-        | id | name       | category | available | price    |
-        |  1 | guess      | apparel  | True      | 25.12    |
-        |  2 | reebok     | shoe     | True      | 31.15    |
-        |  3 | ninewest   | handbag  | False     | 100.12   |
+
+        | name       | category | available | price    |
+        | guess      | apparel  | True      | 25.12    |
+        | reebok     | shoe     | True      | 31.15    |
+        | ninewest   | handbag  | False     | 100.12   |
 
 Scenario: The server is running
     When I visit the "Home Page"
@@ -40,14 +41,14 @@ Scenario: List all shoes
 
 Scenario: Update a Product
     When I visit the "Home Page"
-    And I set the "Id" to "1"
-    And I press the "Retrieve" button
+    And I set the "Name to "guess"
+    And I press the "Search" button
     Then I should see "guess" in the "name" field
     When I change "Name" to "gucci"
     And I press the "Update" button
     Then I should see the message "Success"
-    When I set the "Id" to "1"
-    And I press the "Retrieve" button
+    When I set the "Name" to "gucci"
+    And I press the "Search" button
     Then I should see "gucci" in the "Name" field
     When I press the "Clear" button
     And I press the "Search" button
@@ -56,22 +57,26 @@ Scenario: Update a Product
 
  Scenario: Delete a Product
     When I visit the "Home Page"
-    And I set the "Id" to "1"
-    And I press the "Retrieve" button
+    And I set the "Name to "guess"
+    And I press the "Search" button
     Then I should see "guess" in the "name" field
-    When I set the "Id" to "1"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
     And I press the "Delete" button
     Then I should no longer see "guess"
 
  Scenario: Update a Product: Unavailable Action
     When I visit the "Home Page"
-    And I set the "Id" to "1"
-    And I press the "Retrieve" button
+    And I set the "Name to "guess"
+    And I press the "Search" button
     Then I should see "guess" in the "name" field
     When I select "False" in the "Available" dropdown
     And I press the "Update" button
     Then I should see the message "Success"
-    When I set the "Id" to "1"
+    When I copy the "Id" field
+    And I press the "Clear" button
+    And I paste the "Id" field
     And I press the "Retrieve" button
     Then I should see "False" in the "Available" dropdown
   
