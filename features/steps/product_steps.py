@@ -4,6 +4,7 @@ Product Steps
 Steps file for Product.feature
 """
 from os import getenv
+import logging
 import json
 import requests
 from behave import *
