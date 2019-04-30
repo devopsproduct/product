@@ -5,14 +5,15 @@ Feature: The product store service back-end
 
 Background:
     Given the following products
-        | name       | category | available | price |
-        | guess      | apparel  | True      | 45.99 |
-        | reebok     | shoe     | True      | 66.99 |
-        | ninewest   | handbag  | True      | 77.99 |
+        | id | name       | category | available | price    |
+        |  1 | guess      | apparel  | True      | 25.12    |
+        |  2 | reebok     | shoe     | True      | 31.15    |
+        |  3 | ninewest   | handbag  | False     | 100.12   |
+
 
 Scenario: The server is running
     When I visit the "Home Page"
-    Then I should see "Product Demo RESTful Service" in the title
+    Then I should see "Products Demo RESTful Service" in the title
     And I should not see "404 Not Found"
 
 Scenario: Create a Product

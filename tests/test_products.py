@@ -160,6 +160,13 @@ class TestProducts(unittest.TestCase):
         self.assertEqual(product[0].name, "T-Shirt")
         self.assertEqual(product[0].available, False)
 
+    def test_find_404(self):
+        """ Test Find 404"""
+        Products(name="Television", category="Electronics", available=True).save()
+        product = Products.all()
+        lenProds = len(product)
+        Products.find_or_404(lenProds)
+
 
 ######################################################################
 #   M A I N

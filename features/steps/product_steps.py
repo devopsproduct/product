@@ -10,9 +10,11 @@ from behave import *
 from compare import expect, ensure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions
 
 WAIT_SECONDS = int(getenv('WAIT_SECONDS', '30'))
+
 
 @given('the following products')
 def step_impl(context):
@@ -25,6 +27,7 @@ def step_impl(context):
         data = {
             "name": row['name'],
             "category": row['category'],
+            "price": row['price'],
             "available": row['available'] in ['True', 'true', '1']
             }
         payload = json.dumps(data)
@@ -53,6 +56,24 @@ def step_impl(context, element_name, text_string):
     element = context.driver.find_element_by_id(element_id)
     element.clear()
     element.send_keys(text_string)
+
+@when('I select "{text}" in the "{element_name}" dropdown')
+def step_impl(context, text, element_name):
+    element_id = 'product_' + element_name.lower()
+    element = Select(context.driver.find_element_by_id(element_id))
+    element.select_by_visible_text(text)
+
+@then('I should see "{text}" in the "{element_name}" dropdown')
+def step_impl(context, text, element_name):
+    element_id = 'product_' + element_name.lower()
+    element = Select(context.driver.find_element_by_id(element_id))
+    expect(element.first_selected_option.text).to_equal(text)
+
+@then('the "{element_name}" field should be empty')
+def step_impl(context, element_name):
+    element_id = 'product_' + element_name.lower()
+    element = context.driver.find_element_by_id(element_id)
+    expect(element.get_attribute('value')).to_be(u'')
 
 ##################################################################
 # This code works because of the following naming convention:
