@@ -157,3 +157,26 @@ def step_impl(context, element_name, text_string):
 #     """ Check a field for text """
 #     element = context.driver.find_element_by_id(field)
 #     assert message in element.text
+
+##################################################################
+# These two function simulate copy and paste
+##################################################################
+@when('I copy the "{element_name}" field')
+def step_impl(context, element_name):
+    element_id = 'product_' + element_name.lower()
+    element = context.driver.find_element_by_id(element_id)
+    # element = WebDriverWait(context.driver, WAIT_SECONDS).until(
+    #     expected_conditions.presence_of_element_located((By.ID, element_id))
+    # )
+    context.clipboard = element.get_attribute('value')
+    logging.info('Clipboard contains: %s', context.clipboard)
+
+@when('I paste the "{element_name}" field')
+def step_impl(context, element_name):
+    element_id = 'product_' + element_name.lower()
+    element = context.driver.find_element_by_id(element_id)
+    # element = WebDriverWait(context.driver, WAIT_SECONDS).until(
+    #     expected_conditions.presence_of_element_located((By.ID, element_id))
+    # )
+    element.clear()
+    element.send_keys(context.clipboard)
