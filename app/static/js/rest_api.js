@@ -224,7 +224,12 @@ $(function () {
             $("#search_results").append(header);
             for(var i = 0; i < res.length; i++) {
                 var product = res[i];
-                var row = "<tr><td>"+product.id+"</td><td>"+product.name+"</td><td>"+product.category+"</td><td>"+product.price+"</td><td>"+product.available+"</td></tr>";
+                var row = "<tr><td>" +
+                    product.id + "</td><td>" +
+                    product.name + "</td><td>" +
+                    product.category + "</td><td>" + 
+                    product.price + "</td><td>" +
+                    product.available + "</td></tr>";
                 $("#search_results").append(row);
             }
 
@@ -242,4 +247,43 @@ $(function () {
     // ****************************************
     // List all products
     // ****************************************
+    $("#listAll-btn").click(function() {
+        var ajax = $.ajax({
+            type: "GET",
+            url: "/products",
+            contentType: "application/json",
+            data: ''
+        });
+
+        ajax.done(function(res) {
+            $("#search_results").empty();
+            $("#search_results").append('<table class="table-striped"> <thead><tr><th>All Products</th></tr>');
+            var header = '<tr>'
+            header += '<th style="width:10%">ID</th>';
+            header += '<th style="width:20%">Name</th>';
+            header += '<th style="width:13%">Category</th>';
+            header += '<th style="width:10%">Price</th>';
+            header += '<th style="width:10%">Available</th></tr>';
+            $("#search_results").append(header);
+            for (var i = 0; i < res.length; i++) {
+                var product = res[i];
+                var row = "<tr><td>" +
+                    product.id + "</td><td>" +
+                    product.name + "</td><td>" +
+                    product.category + "</td><td>" + 
+                    product.price + "</td><td>" +
+                    product.available + "</td></tr>";
+                $("#search_results").append(row);
+            }
+
+            $("#search_results").append('</table>');
+
+            flash_message("Success");
+        });
+
+        ajax.fail(function(res) {
+            flash_message(res.responseJSON.message);
+        });
+    });
+
 })
