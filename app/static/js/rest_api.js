@@ -39,7 +39,7 @@ $(function () {
 
         var name = $("#product_name").val();
         var category = $("#product_category").val();
-        var price = $(round("#product_price").val(),2);
+        var price = $("#product_price").val();
         var available = $("#product_available").val() == "true";
 
         var data = {
