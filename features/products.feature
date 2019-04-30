@@ -41,7 +41,7 @@ Scenario: List all shoes
 
 Scenario: Update a Product
     When I visit the "Home Page"
-    And I set the "Name to "guess"
+    And I set the "Name" to "guess"
     And I press the "Search" button
     Then I should see "guess" in the "name" field
     When I change "Name" to "gucci"
@@ -57,7 +57,7 @@ Scenario: Update a Product
 
  Scenario: Delete a Product
     When I visit the "Home Page"
-    And I set the "Name to "guess"
+    And I set the "Name" to "guess"
     And I press the "Search" button
     Then I should see "guess" in the "name" field
     When I copy the "Id" field
@@ -68,7 +68,7 @@ Scenario: Update a Product
 
  Scenario: Update a Product: Unavailable Action
     When I visit the "Home Page"
-    And I set the "Name to "guess"
+    And I set the "Name" to "guess"
     And I press the "Search" button
     Then I should see "guess" in the "name" field
     When I select "False" in the "Available" dropdown
