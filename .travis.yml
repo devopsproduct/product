@@ -18,7 +18,8 @@ install: "pip install -r requirements.txt"
 
 # commands to run tests
 before_script:
-  - psql -c 'create database flaskProducts;' -U postgres
+  - psql -c 'create database postgres;' -U postgres
+  - python run.py &
 
 script:
   - nosetests --with-coverage
