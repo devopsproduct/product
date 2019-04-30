@@ -3,8 +3,8 @@ language: python
 python:
   - "2.7"
 
-# command to install dependencies
-install: "pip install -r requirements.txt"
+services:
+  - postgresql
 
 env:
   global:
@@ -13,12 +13,12 @@ env:
     - DB_USER=flaskProductUser
     - DB_PASSWORD=flaskProductPW
 
-services:
-  - postgresql
+# command to install dependencies
+install: "pip install -r requirements.txt"
 
 # commands to run tests
 before_script:
-  - psql -c 'create database travis_ci_test;' -U flaskProductUser
+  - psql -c 'create database flaskProducts;' -U flaskProductUser
 
 script:
   - nosetests --with-coverage
