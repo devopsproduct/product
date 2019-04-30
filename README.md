@@ -6,6 +6,7 @@ Products Microservice for DevOps and Agile Methodologies Stern MBA Class
 This repository will be used to create the Products microservice
 
 [![Build Status](https://travis-ci.org/devopsproducts/products.svg?branch=master)](https://travis-ci.org/devopsproducts/products)
+[![codecov](https://codecov.io/gh/devopsproducts/products/branch/master/graph/badge.svg)](https://codecov.io/gh/devopsproducts/products)
 
 ### Installation using Vagrant
 The easiest way to use this repo is with Vagrant and VirtualBox. if you don't have this software the first step is down download and install it.
