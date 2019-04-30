@@ -23,7 +23,7 @@ Attributes:
 name (string) - the name of the product
 category (string) - the category the product belongs to (i.e., apparel, shoe)
 available (boolean) - True for products that are available for purchase
-price (Integer) - the price of the product
+price (float) - the price of the product
 """
 import logging
 from flask_sqlalchemy import SQLAlchemy
@@ -31,9 +31,11 @@ from flask_sqlalchemy import SQLAlchemy
 # Create the SQLAlchemy object to be initialized later in init_db()
 db = SQLAlchemy()
 
+
 class DataValidationError(Exception):
     # Used for an data validation errors when deserializing
     pass
+
 
 class Products(db.Model):
     """
@@ -50,7 +52,8 @@ class Products(db.Model):
     name = db.Column(db.String(63))
     category = db.Column(db.String(63))
     available = db.Column(db.Boolean())
-    price = db.Column(db.Float(38,2))
+    price = db.Column(db.Float(precision=2))
+
 
     def __repr__(self):
         return '<product %r>' % (self.name)
@@ -74,7 +77,8 @@ class Products(db.Model):
                 "name": self.name,
                 "category": self.category,
                 "available": self.available,
-                "price": str(self.price)}
+                "price": str(self.price)
+                }
 
     def deserialize(self, data):
         """
@@ -87,7 +91,7 @@ class Products(db.Model):
             self.name = data['name']
             self.category = data['category']
             self.available = data['available']
-            self.price = float(data['price'])
+            self.price = round(float(data['price']),2)
         except KeyError as error:
             raise DataValidationError('Invalid product: missing ' + error.args[0])
         except TypeError as error:
