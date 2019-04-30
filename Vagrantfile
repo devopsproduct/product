@@ -102,7 +102,7 @@ Vagrant.configure("2") do |config|
     rm -rf /vagrant/.env
     touch /vagrant/.env
     chown vagrant:vagrant /vagrant/.env
-    echo "DB_HOST = localhost \nDB_NAME = flaskProducts \nDB_USER = flaskProductUser  \nDB_PASSWORD = flaskProductPW\n" >/vagrant/.env
+    echo "DB_HOST = localhost \nDB_NAME = postgres \nDB_USER = postgres  \nDB_PASSWORD = postgres\n" >/vagrant/.env
   SHELL
 
   # !!! Check LogIn via Orders Team !!! #
@@ -112,7 +112,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "docker" do |d|
      d.pull_images "postgres:11-alpine"
      d.run "postgres:11-alpine",
-       args: "--restart=always -d --name psql -h psql -p 5432:5432 -v /var/docker/postgresql:/data -e POSTGRES_PASSWORD=flaskProductPW -e POSTGRES_USER=flaskProductUser -e POSTGRES_DB=flaskProducts"
+       args: "--restart=always -d --name psql -h psql -p 5432:5432 -v /var/docker/postgresql:/data -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres"
    end
 
   ######################################################################
