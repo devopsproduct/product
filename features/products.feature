@@ -19,6 +19,7 @@ Scenario: Create a Product
     When I visit the "Home Page"
     And I set the "Name" to "nike"
     And I set the "Category" to "bag"
+    And I select "True" in the "Available" dropdown
     And I press the "Create" button
     Then I should see the message "Success"
 
@@ -61,3 +62,16 @@ Scenario: Update a Product
     When I set the "Id" to "1"
     And I press the "Delete" button
     Then I should no longer see "guess"
+
+ Scenario: Update a Product: Unavailable Action
+    When I visit the "Home Page"
+    And I set the "Id" to "1"
+    And I press the "Retrieve" button
+    Then I should see "guess" in the "name" field
+    When I select "False" in the "Available" dropdown
+    And I press the "Update" button
+    Then I should see the message "Success"
+    When I set the "Id" to "1"
+    And I press the "Retrieve" button
+    Then I should see "False" in the "Available" dropdown
+  
