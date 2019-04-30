@@ -19,7 +19,7 @@ from VCAP_SERVICES in Bluemix if Found
 """
 import os
 import json
-from flask import current_app
+from models import Products
 
 def get_database_uri():
     """
@@ -30,19 +30,20 @@ def get_database_uri():
       3) With PostgreSQL running on the local server as with Travis CI
     """
     database_uri = None
-    if 'DATABASE_URI' in os.environ:
+    serverEnv = os.environ
+    if 'DATABASE_URI' in serverEnv:
         # Get the credentials from DATABASE_URI
-        current_app.logger.info("Using DATABASE_URI...")
+        Products.logger.info("Using DATABASE_URI...")
         database_uri = os.environ['DATABASE_URI']
-    elif 'VCAP_SERVICES' in os.environ:
+    elif 'VCAP_SERVICES' in serverEnv:
         # Get the credentials from the Bluemix environment
-        current_app.logger.info("Using VCAP_SERVICES...")
+        Products.logger.info("Using VCAP_SERVICES...")
         vcap_services = os.environ['VCAP_SERVICES']
         services = json.loads(vcap_services)
         creds = services['dashDB For Transactions'][0]['credentials']
         database_uri = creds["uri"]
     else:
-        curent_app.logger.info("Using localhost database...")
+        Products.logger.info("Using localhost database...")
         database_uri = "postgres://postgres:postgres@localhost:5432/postgres"
 
     return database_uri

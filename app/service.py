@@ -95,13 +95,18 @@ def internal_server_error(error):
 ######################################################################
 # GET INDEX
 ######################################################################
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
     """ Root URL response """
-    return jsonify(name='Product Demo REST API Service',
-                   version='1.0',
-                   paths=url_for('list_products', _external=True)
-                  ), status.HTTP_200_OK
+    return app.send_static_file('index.html')
+
+# @app.route('/')
+# def index():
+#     """ Root URL response """
+#     return jsonify(name='Product Demo REST API Service',
+#                    version='1.0',
+#                    paths=url_for('list_products', _external=True)
+#                   ), status.HTTP_200_OK
 
 ######################################################################
 # LIST ALL Products

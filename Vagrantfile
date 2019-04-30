@@ -93,34 +93,27 @@ Vagrant.configure("2") do |config|
     sudo pip install -r requirements.txt
   SHELL
 
-  ######################################################################
-  # Add Redis docker container
-  ######################################################################
-  config.vm.provision "shell", inline: <<-SHELL
-    # Prepare Redis data share
-    sudo mkdir -p /var/lib/redis/data
-    sudo chown ubuntu:ubuntu /var/lib/redis/data
-  SHELL
-
-  # Add Redis docker container
-  config.vm.provision "docker" do |d|
-    d.pull_images "redis:alpine"
-    d.run "redis:alpine",
-      args: "--restart=always -d --name redis -h redis -p 6379:6379 -v /var/lib/redis/data:/data"
-  end
 
   ######################################################################
-  # Add PostgreSQL docker container
+  # Create .env file
   ######################################################################
-  # docker run -d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data postgres
-  config.vm.provision :docker do |d|
-    d.pull_images "postgres:alpine"
-    d.run "postgres",
-       args: "-d --name postgres -p 5432:5432 -v psql_data:/var/lib/postgresql/data"
-  end
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   echo "Creating /vagrant/.env"
+  #   rm -rf /vagrant/.env
+  #   touch /vagrant/.env
+  #   chown vagrant:vagrant /vagrant/.env
+  #   echo "DB_HOST = localhost \nDB_NAME = postgres \nDB_USER = postgres  \nDB_PASSWORD = postgres\n" >/vagrant/.env
+  # SHELL
 
-  # install docker-compose in the VM
-  # config.vm.provision :docker_compose
+  # !!! Check LogIn via Orders Team !!! #
+  ######################################################################
+  # Add Postgres docker container
+  ######################################################################
+   config.vm.provision "docker" do |d|
+     d.pull_images "postgres:11-alpine"
+     d.run "postgres:11-alpine",
+       args: "--restart=always -d --name psql -h psql -p 5432:5432 -v /var/docker/postgresql:/data"
+   end
 
   # Create the database after Docker is running
   config.vm.provision :shell, inline: <<-SHELL
