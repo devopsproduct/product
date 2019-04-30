@@ -71,6 +71,12 @@ class Products(db.Model):
         db.session.delete(self)
         db.session.commit()
 
+    ''' DELETE ALL FOR TESTING ONLY '''
+    @classmethod
+    def delete_all(cls):
+        cls.query.delete()
+        db.session.commit()
+
     def serialize(self):
         """ Serializes a products into a dictionary """
         return {"id": self.id,

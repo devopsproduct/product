@@ -14,6 +14,7 @@ from selenium.webdriver.support import expected_conditions
 
 WAIT_SECONDS = int(getenv('WAIT_SECONDS', '30'))
 
+
 @given('the following products')
 def step_impl(context):
     """ Delete all Products and load new ones """
@@ -25,6 +26,7 @@ def step_impl(context):
         data = {
             "name": row['name'],
             "category": row['category'],
+            "price": row['price'],
             "available": row['available'] in ['True', 'true', '1']
             }
         payload = json.dumps(data)
