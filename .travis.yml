@@ -10,15 +10,15 @@ env:
   global:
     - DB_HOST=127.0.0.1
     - DB_NAME=flaskProducts
-    - DB_USER=flaskProductUser
-    - DB_PASSWORD=flaskProductPW
+    - DB_USER=postgres
+    - DB_PASSWORD=
 
 # command to install dependencies
 install: "pip install -r requirements.txt"
 
 # commands to run tests
 before_script:
-  - psql -c 'create database flaskProducts;' -U flaskProductUser
+  - psql -c 'create database flaskProducts;' -U postgres
 
 script:
   - nosetests --with-coverage
