@@ -97,13 +97,13 @@ Vagrant.configure("2") do |config|
   ######################################################################
   # Create .env file
   ######################################################################
-  config.vm.provision "shell", inline: <<-SHELL
-    echo "Creating /vagrant/.env"
-    rm -rf /vagrant/.env
-    touch /vagrant/.env
-    chown vagrant:vagrant /vagrant/.env
-    echo "DB_HOST = localhost \nDB_NAME = postgres \nDB_USER = postgres  \nDB_PASSWORD = postgres\n" >/vagrant/.env
-  SHELL
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   echo "Creating /vagrant/.env"
+  #   rm -rf /vagrant/.env
+  #   touch /vagrant/.env
+  #   chown vagrant:vagrant /vagrant/.env
+  #   echo "DB_HOST = localhost \nDB_NAME = postgres \nDB_USER = postgres  \nDB_PASSWORD = postgres\n" >/vagrant/.env
+  # SHELL
 
   # !!! Check LogIn via Orders Team !!! #
   ######################################################################
@@ -112,8 +112,24 @@ Vagrant.configure("2") do |config|
    config.vm.provision "docker" do |d|
      d.pull_images "postgres:11-alpine"
      d.run "postgres:11-alpine",
-       args: "--restart=always -d --name psql -h psql -p 5432:5432 -v /var/docker/postgresql:/data -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres"
+       args: "--restart=always -d --name psql -h psql -p 5432:5432 -v /var/docker/postgresql:/data"
    end
+
+  # Create the database after Docker is running
+  config.vm.provision :shell, inline: <<-SHELL
+    # Wait for mariadb to come up
+    echo "Waiting 20 seconds for PostgreSQL to start..."
+    sleep 10
+    echo "10 seconds Bob..."
+    sleep 10
+    cd /vagrant
+    # docker exec postgres psql -U postgres -c "CREATE DATABASE development;"
+    # docker exec postgres psql -U postgres -c "CREATE DATABASE test;"
+    # flask db init
+    # flask db migrate
+    flask db upgrade
+    cd
+  SHELL
 
   ######################################################################
   # Setup a Bluemix and Kubernetes environment

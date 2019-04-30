@@ -29,6 +29,7 @@ from flask_api import status    # HTTP Status Codes
 from app.models import Products, DataValidationError, db
 from .product_factory import ProductFactory
 import app.service as service
+import app.vcap_services as vcap
 
 DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///../db/test.db')
 
@@ -214,6 +215,10 @@ class TestProductsServer(unittest.TestCase):
             resp = self.app.post('/products/1')
             self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
+    def test_database_uri(self):
+        """Test database URI is available"""
+        self.assertEqual(vcap.get_database_uri(), 'postgres://postgres:postgres@localhost:5432/postgres')
+
     @mock.patch('app.service.Products.find_by_name')
     def test_search_bad_data(self, products_find_mock):
         """ Test a search that returns bad data """
@@ -254,7 +259,6 @@ class TestProductsServer(unittest.TestCase):
     #     product_find_mock.return_value = [MagicMock(serialize=lambda: {'name': 'fido'})]
     #     resp = self.app.get('/products', query_string='name=fido')
     #     self.assertEqual(resp.status_code, status.HTTP_200_OK)
-
 
 ######################################################################
 #   M A I N
