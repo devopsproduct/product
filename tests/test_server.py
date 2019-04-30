@@ -80,8 +80,8 @@ class TestProductsServer(unittest.TestCase):
         """ Test the Home Page """
         resp = self.app.get('/')
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        data = resp.get_json()
-        self.assertEqual(data['name'], 'Product Demo REST API Service')
+        # data = resp.get_json()
+        # self.assertEqual(data['name'], 'Product Demo REST API Service')
 
     def test_get_product_list(self):
         """ Get a list of Products """
