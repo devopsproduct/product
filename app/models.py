@@ -50,7 +50,7 @@ class Products(db.Model):
     name = db.Column(db.String(63))
     category = db.Column(db.String(63))
     available = db.Column(db.Boolean())
-    price = db.Column(db.Integer)
+    price = db.Column(db.Float(38,2))
 
     def __repr__(self):
         return '<product %r>' % (self.name)
@@ -74,7 +74,7 @@ class Products(db.Model):
                 "name": self.name,
                 "category": self.category,
                 "available": self.available,
-                "price": self.price}
+                "price": str(self.price)}
 
     def deserialize(self, data):
         """
@@ -87,7 +87,7 @@ class Products(db.Model):
             self.name = data['name']
             self.category = data['category']
             self.available = data['available']
-            self.price = data['price']
+            self.price = float(data['price'])
         except KeyError as error:
             raise DataValidationError('Invalid product: missing ' + error.args[0])
         except TypeError as error:
