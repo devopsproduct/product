@@ -46,10 +46,9 @@ Scenario: Update a Product
     And I press the "Search" button
     Then I should see "guess" in the "name" field
     When I copy the "Id" field
-    And I copy the "Price" field
     And I press the "Clear" button
     And I paste the "Id" field
-    And I paste the "Price" field
+    And I press the "Retrieve" button
     And I change "Name" to "gucci"
     And I press the "Update" button
     Then I should see the message "Success"
@@ -70,7 +69,7 @@ Scenario: Update a Product
     And I press the "Clear" button
     And I paste the "Id" field
     And I press the "Delete" button
-    Then I should no longer see "guess"
+    Then I should not see "guess"
 
  Scenario: Update a Product: Unavailable Action
     When I visit the "Home Page"
@@ -78,10 +77,9 @@ Scenario: Update a Product
     And I press the "Search" button
     Then I should see "guess" in the "name" field
     When I copy the "Id" field
-    And I copy the "Price" field
     And I press the "Clear" button
     And I paste the "Id" field
-    And I paste the "Price" field
+    And I press the "Retrieve" button
     And I select "False" in the "Available" dropdown
     And I press the "Update" button
     Then I should see the message "Success"
