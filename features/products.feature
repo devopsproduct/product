@@ -77,4 +77,8 @@ Scenario: Update a Product
     When I copy line "1" and row "1"
     And I paste the "Id" field
     And I press the "Retrieve" button
-    Then I should see "False" in the "Available" dropdown
+    And I set the "Name" to "Nike"
+    And I press the "Update" button
+    And I press the "Clear" button
+    And I press the "Search" button
+    Then I should see "Nike" in the results
