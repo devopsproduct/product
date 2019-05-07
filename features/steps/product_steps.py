@@ -88,6 +88,7 @@ def step_impl(context, element_name):
 def step_impl(context, button):
     button_id = button.lower() + '-btn'
     context.driver.find_element_by_id(button_id).click()
+    WebDriverWait(context.driver, 30)
 
 @then('I should see "{name}" in the results')
 def step_impl(context, name):
@@ -170,6 +171,16 @@ def step_impl(context, element_name):
     #     expected_conditions.presence_of_element_located((By.ID, element_id))
     # )
     context.clipboard = element.get_attribute('value')
+    logging.info('Clipboard contains: %s', context.clipboard)
+
+# https://www.guru99.com/handling-dynamic-selenium-webdriver.html
+@when('I copy column "{col}" and row "{row}"')
+def step_impl(context, col, row):
+    column = col
+    row = str(int(row) + 1)
+    table_path = '//*[@id="search_results"]/tr['+row+']/td['+col+']'
+    element =  context.driver.find_element(By.XPATH, table_path)
+    context.clipboard = element.text
     logging.info('Clipboard contains: %s', context.clipboard)
 
 @when('I paste the "{element_name}" field')

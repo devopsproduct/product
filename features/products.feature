@@ -40,26 +40,6 @@ Scenario: List all shoes
     And I should not see "guess" in the results
     And I should not see "ninewest" in the results
 
-Scenario: Update a Product
-    When I visit the "Home Page"
-    And I set the "Name" to "guess"
-    And I press the "Search" button
-    Then I should see "guess" in the "name" field
-    When I copy the "Id" field
-    And I press the "Clear" button
-    And I paste the "Id" field
-    And I press the "Retrieve" button
-    And I change "Name" to "gucci"
-    And I press the "Update" button
-    Then I should see the message "Success"
-    When I set the "Name" to "gucci"
-    And I press the "Search" button
-    Then I should see "gucci" in the "Name" field
-    When I press the "Clear" button
-    And I press the "Search" button
-    Then I should see "gucci" in the results
-    Then I should not see "guess" in the results
-
  Scenario: Delete a Product
     When I visit the "Home Page"
     And I set the "Name" to "guess"
@@ -71,20 +51,33 @@ Scenario: Update a Product
     And I press the "Delete" button
     Then I should not see "guess"
 
+Scenario: Update a Product
+    When I visit the "Home Page"
+    And I set the "Name" to "guess"
+    And I press the "Search" button
+    Then I should see "guess" in the results
+    When I copy column "1" and row "1"
+    And I paste the "Id" field
+    And I press the "Retrieve" button
+    And I set the "Name" to "Nike"
+    And I press the "Update" button
+    And I press the "Clear" button
+    And I press the "Search" button
+    Then I should see "Nike" in the results
+
+
  Scenario: Update a Product: Unavailable Action
     When I visit the "Home Page"
     And I set the "Name" to "guess"
     And I press the "Search" button
     Then I should see "guess" in the "name" field
-    When I copy the "Id" field
-    And I press the "Clear" button
+    When I copy column "1" and row "1"
     And I paste the "Id" field
     And I press the "Retrieve" button
     And I select "False" in the "Available" dropdown
     And I press the "Update" button
     Then I should see the message "Success"
-    When I copy the "Id" field
-    And I press the "Clear" button
+    When I press the "Clear" button
     And I paste the "Id" field
     And I press the "Retrieve" button
     Then I should see "False" in the "Available" dropdown
