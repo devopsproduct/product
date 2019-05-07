@@ -172,6 +172,16 @@ def step_impl(context, element_name):
     context.clipboard = element.get_attribute('value')
     logging.info('Clipboard contains: %s', context.clipboard)
 
+@when('I copy line "{col}" and row "{row}"')
+def step_impl(context, col, row):
+    column = str(int(col) + 1)
+    row = str(row)
+    table_path = '//*[@id="search_results"]/tr['+row+']/td['+col+']'
+    logging.info("The path is: %s", table_path)
+    element =  context.driver.find_element(By.XPATH, table_path)
+    context.clipboard = element.get_attribute('value')
+    logging.info('Clipboard contains: %s', context.clipboard)
+
 @when('I paste the "{element_name}" field')
 def step_impl(context, element_name):
     element_id = 'product_' + element_name.lower()
