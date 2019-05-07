@@ -174,7 +174,7 @@ def step_impl(context, element_name):
     logging.info('Clipboard contains: %s', context.clipboard)
 
 # https://www.guru99.com/handling-dynamic-selenium-webdriver.html
-@when('I copy line "{col}" and row "{row}"')
+@when('I copy column "{col}" and row "{row}"')
 def step_impl(context, col, row):
     column = col
     row = str(int(row) + 1)
