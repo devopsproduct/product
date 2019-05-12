@@ -179,7 +179,7 @@ def step_impl(context, col, row):
     column = col
     row = str(int(row) + 1)
     table_path = '//*[@id="search_results"]/tr['+row+']/td['+col+']'
-    element =  context.driver.find_element(By.XPATH, table_path)
+    element = context.driver.find_element(By.XPATH, table_path)
     context.clipboard = element.text
     logging.info('Clipboard contains: %s', context.clipboard)
 

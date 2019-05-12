@@ -20,16 +20,16 @@ Test cases can be run with the following:
   coverage report -m
   codecov --token=$CODECOV_TOKEN
 """
-import mock
 import unittest
 import os
 import logging
+import mock
 from flask_api import status    # HTTP Status Codes
+import app.service as service
+import app.vcap_services as vcap
 #from mock import MagicMock, patch
 from app.models import Products, DataValidationError, db
 from .product_factory import ProductFactory
-import app.service as service
-import app.vcap_services as vcap
 
 DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///../db/test.db')
 
@@ -197,14 +197,6 @@ class TestProductsServer(unittest.TestCase):
                                content_type='application/json')
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
 
-    def test_get_product_list(self):
-        """ Get a list of Orders """
-        self._create_products(5)
-        resp = self.app.get('/products')
-        self.assertEqual(resp.status_code, status.HTTP_200_OK)
-        data = resp.get_json()
-        self.assertEqual(len(data), 5)
-
     def test_query_product_list_by_category(self):
         """ Query Proucts by Category """
         products = self._create_products(10)
@@ -220,9 +212,9 @@ class TestProductsServer(unittest.TestCase):
             self.assertEqual(product['category'], test_category)
 
     def test_method_not_allowed(self):
-            """ Test a sending invalid http method """
-            resp = self.app.post('/products/1')
-            self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        """ Test a sending invalid http method """
+        resp = self.app.post('/products/1')
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_database_uri(self):
         """Test database URI is available"""
@@ -237,24 +229,24 @@ class TestProductsServer(unittest.TestCase):
 
     @mock.patch('app.service.Products.find_by_name')
     def test_mediatype_not_supported(self, media_mock):
-         """ Handles unsuppoted media requests with 415_UNSUPPORTED_MEDIA_TYPE """
-         media_mock.side_effect = DataValidationError()
-         resp = self.app.post('/products', query_string='name=widget1', content_type='application/pdf')
-         self.assertEqual(resp.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+        """ Handles unsuppoted media requests with 415_UNSUPPORTED_MEDIA_TYPE """
+        media_mock.side_effect = DataValidationError()
+        resp = self.app.post('/products', query_string='name=widget1', content_type='application/pdf')
+        self.assertEqual(resp.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     @mock.patch('app.service.Products.find_by_name')
     def test_method_not_supported(self, method_mock):
-         """ Handles unsuppoted HTTP methods with 405_METHOD_NOT_SUPPORTED """
-         method_mock.side_effect = None
-         resp = self.app.put('/products', query_string='name=widget1')
-         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+        """ Handles unsuppoted HTTP methods with 405_METHOD_NOT_SUPPORTED """
+        method_mock.side_effect = None
+        resp = self.app.put('/products', query_string='name=widget1')
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     @mock.patch('app.service.Products.find_by_name')
     def test_bad_request(self, bad_request_mock):
-         """ Test a Bad Request error from Find By Name """
-         bad_request_mock.side_effect = DataValidationError()
-         resp = self.app.get('/products', query_string='name=widget1')
-         self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
+        """ Test a Bad Request error from Find By Name """
+        bad_request_mock.side_effect = DataValidationError()
+        resp = self.app.get('/products', query_string='name=widget1')
+        self.assertEqual(resp.status_code, status.HTTP_400_BAD_REQUEST)
     # @patch('app.service.product.find_by_name')
     # def test_bad_request(self, bad_request_mock):
     #     """ Test a Bad Request error from Find By Name """
