@@ -45,4 +45,11 @@ It's also a good idea to make sure that your Python code follows the PEP8 standa
 
 $ flake8 --count --max-complexity=10 --statistics model,service
 
-I've also include pylint in the requirements. If you use a programmer's editor like Atom.io you can install plug-ins that will use pylint while you are editing. This catches a lot of errors while you code that would normally be caught at runtime. It's a good idea to always code with pylint active.
+We've also include pylint in the requirements. If you use a programmer's editor like Atom.io you can install plug-ins that will use pylint while you are editing. This catches a lot of errors while you code that would normally be caught at runtime. It's a good idea to always code with pylint active.
+
+BDD tests require the service to be running because unlike the the TDD unit tests that test the code locally, these BDD integration tests are using Selenium to manipulate a web page on a running server.
+
+Run these tests using 'behave'
+
+ '$ python3 run.py &
+ $ behave'
