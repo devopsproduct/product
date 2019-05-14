@@ -126,7 +126,7 @@ def list_products():
     elif name:
         products = Products.find_by_name(name)
     elif price:
-        products = Products.find_by_price(price) 
+        products = Products.find_by_price(price)
     else:
         products = Products.all()
 
@@ -198,7 +198,7 @@ def unavailable_products(product_id):
     """
     Make a product unavailable
 
-    This endpoint will update a Product to be unavailable 
+    This endpoint will update a Product to be unavailable
     """
     app.logger.info('Request to update product with id: %s', product_id)
     product = Products.find(product_id)
@@ -257,7 +257,7 @@ def check_content_type(content_type):
 def initialize_logging(log_level=logging.INFO):
     """ Initialized the default logging to STDOUT """
     if not app.debug:
-        print 'Setting up logging...'
+        print('Setting up logging...')
         # Set up default logging for submodules to use STDOUT
         # datefmt='%m/%d/%Y %I:%M:%S %p'
         fmt = '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
