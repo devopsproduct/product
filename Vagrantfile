@@ -67,6 +67,11 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "~/.gitconfig", destination: "~/.gitconfig"
   end
 
+  # Copy your IBM Clouid API Key if you have one
+  if File.exists?(File.expand_path("~/.bluemix/apiKey.json"))
+    config.vm.provision "file", source: "~/.bluemix/apiKey.json", destination: "~/.bluemix/apiKey.json"
+  end
+
   # Copy your ssh keys file so that your git credentials are correct
   if File.exists?(File.expand_path("~/.ssh/id_rsa"))
     config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
@@ -81,28 +86,67 @@ Vagrant.configure("2") do |config|
     apt-get install -y git python-pip python-dev build-essential
     pip install --upgrade pip
     apt-get -y autoremove
+ 
     # Make vi look nice ;-)
     sudo -H -u ubuntu echo "colorscheme desert" > ~/.vimrc
+ 
+    # Install PhantomJS for Selenium browser support
+    echo "\n***********************************"
+    echo " Installing PhantomJS for Selenium"
+    echo "***********************************\n"
+    sudo apt-get install -y chrpath libssl-dev libxft-dev
+    # PhantomJS https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
+    cd ~
+    export PHANTOM_JS="phantomjs-2.1.1-linux-x86_64"
+    wget https://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2
+    sudo tar xvjf $PHANTOM_JS.tar.bz2
+    sudo mv $PHANTOM_JS /usr/local/share
+    sudo ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
+    rm -f $PHANTOM_JS.tar.bz2
+
     # Install app dependencies
     cd /vagrant
     sudo pip install -r requirements.txt
   SHELL
 
-  ######################################################################
-  # Add Redis docker container
-  ######################################################################
-  config.vm.provision "shell", inline: <<-SHELL
-    # Prepare Redis data share
-    sudo mkdir -p /var/lib/redis/data
-    sudo chown ubuntu:ubuntu /var/lib/redis/data
-  SHELL
 
-  # Add Redis docker container
-  config.vm.provision "docker" do |d|
-    d.pull_images "redis:alpine"
-    d.run "redis:alpine",
-      args: "--restart=always -d --name redis -h redis -p 6379:6379 -v /var/lib/redis/data:/data"
-  end
+
+  ######################################################################
+  # Create .env file
+  ######################################################################
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   echo "Creating /vagrant/.env"
+  #   rm -rf /vagrant/.env
+  #   touch /vagrant/.env
+  #   chown vagrant:vagrant /vagrant/.env
+  #   echo "DB_HOST = localhost \nDB_NAME = postgres \nDB_USER = postgres  \nDB_PASSWORD = postgres\n" >/vagrant/.env
+  # SHELL
+
+  # !!! Check LogIn via Orders Team !!! #
+  ######################################################################
+  # Add Postgres docker container
+  ######################################################################
+   config.vm.provision "docker" do |d|
+     d.pull_images "postgres:11-alpine"
+     d.run "postgres:11-alpine",
+       args: "--restart=always -d --name psql -h psql -p 5432:5432 -v /var/docker/postgresql:/data"
+   end
+
+  # Create the database after Docker is running
+  config.vm.provision :shell, inline: <<-SHELL
+    # Wait for mariadb to come up
+    echo "Waiting 20 seconds for PostgreSQL to start..."
+    sleep 10
+    echo "10 seconds Bob..."
+    sleep 10
+    cd /vagrant
+    # docker exec postgres psql -U postgres -c "CREATE DATABASE development;"
+    # docker exec postgres psql -U postgres -c "CREATE DATABASE test;"
+    # flask db init
+    # flask db migrate
+    flask db upgrade
+    cd
+  SHELL
 
   ######################################################################
   # Setup a Bluemix and Kubernetes environment

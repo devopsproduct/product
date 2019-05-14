@@ -3,6 +3,9 @@ Flask==1.0.2
 Flask-API==1.1
 Flask-SQLAlchemy==2.3.2
 SQLAlchemy==1.2.12
+ibm-db==2.0.9
+ibm-db-sa==0.3.2
+psycopg2-binary==2.8.2
 
 # Runtime
 gunicorn==19.9.0
@@ -25,3 +28,9 @@ mock==2.0.0
 coverage==4.5.3
 codecov==2.0.15
 pytest-cov==2.6.1
+
+# BDD
+behave==1.2.5
+selenium==3.3.1
+compare==0.2b0
+requests==2.13.0
