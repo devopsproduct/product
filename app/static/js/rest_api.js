@@ -257,7 +257,6 @@ $(function () {
 
         ajax.done(function(res) {
             $("#search_results").empty();
-            $("#search_results").append('<table class="table-striped"> <thead><tr><th>All Products</th></tr>');
             var header = '<tr>'
             header += '<th style="width:10%">ID</th>';
             header += '<th style="width:20%">Name</th>';
