@@ -4,7 +4,7 @@ applications:
 - name: nyu-product-service-s19-dev
   path: .
   instances: 2
-  memory: 64M
+  memory: 128M
   #random-route: true
   # routes:
   # - route: nyu-product-service-s19-dev.mybluemix.net
