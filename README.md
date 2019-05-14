@@ -5,6 +5,16 @@ Products Microservice for DevOps and Agile Methodologies Stern MBA Class
 
 This repository will be used to create the Products microservice
 
+
+Project Files
+
+* app/service.py -- the main Service using Python Flask
+* app/models.py -- the data model using SQLAlchemy
+* tests/test_server.py -- test cases against the service
+* tests/test_products.py -- test cases against the Products model
+* features/steps/product_steps.py -- BDD steps file 
+* features/products.feature -- BDD Test Description
+
 [![Build Status](https://travis-ci.org/devopsproducts/products.svg?branch=master)](https://travis-ci.org/devopsproducts/products)
 [![codecov](https://codecov.io/gh/devopsproducts/products/branch/master/graph/badge.svg)](https://codecov.io/gh/devopsproducts/products)
 
@@ -57,9 +67,8 @@ This is particularly useful because it reports the line numbers for the code tha
 It's also a good idea to make sure that your Python code follows the PEP8 standard. `flake8` has been included in the `requirements.txt` file so that you can check if your code is compliant like this:
 
 ```
-
 $ flake8 --count --max-complexity=10 --statistics model,service
-
+```
 
 We've also include pylint in the requirements. If you use a programmer's editor like Atom.io you can install plug-ins that will use pylint while you are editing. This catches a lot of errors while you code that would normally be caught at runtime. It's a good idea to always code with pylint active.
 
@@ -67,6 +76,9 @@ BDD tests require the service to be running because unlike the the TDD unit test
 
 Run these tests using 'behave'
 
- '$ python3 run.py &
- $ behave'
+ `$ python3 run.py &
+ `$ behave
 
+If the VM is no longer needed you can remove it with:
+
+`$ vagrant destroy
