@@ -97,7 +97,7 @@ class Products(db.Model):
             self.name = data['name']
             self.category = data['category']
             self.available = data['available']
-            self.price = data['price']
+            self.price = float(data['price'])
         except KeyError as error:
             raise DataValidationError('Invalid product: missing ' + error.args[0])
         except TypeError as error:

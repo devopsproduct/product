@@ -27,7 +27,8 @@ Scenario: Create a Product
 
 Scenario: List all products
     When I visit the "Home Page"
-    And I press the "Search" button
+    And I press the "list" button
+    And I wait "5" seconds
     Then I should see "guess" in the results
     And I should see "reebok" in the results
     And I should see "ninewest" in the results
@@ -36,6 +37,7 @@ Scenario: List all shoes
     When I visit the "Home Page"
     And I set the "Category" to "shoe"
     And I press the "Search" button
+    And I wait "5" seconds
     Then I should see "reebok" in the results
     And I should not see "guess" in the results
     And I should not see "ninewest" in the results
@@ -44,6 +46,7 @@ Scenario: List all shoes
     When I visit the "Home Page"
     And I set the "Name" to "guess"
     And I press the "Search" button
+    And I wait "5" seconds
     Then I should see "guess" in the "name" field
     When I copy the "Id" field
     And I press the "Clear" button
@@ -55,14 +58,19 @@ Scenario: Update a Product
     When I visit the "Home Page"
     And I set the "Name" to "guess"
     And I press the "Search" button
+    And I wait "5" seconds   
     Then I should see "guess" in the results
     When I copy column "1" and row "1"
     And I paste the "Id" field
     And I press the "Retrieve" button
+    And I wait "5" seconds
     And I set the "Name" to "Nike"
+    And I set the "Price" to "25.12"
     And I press the "Update" button
-    And I press the "Clear" button
-    And I press the "Search" button
+    And I wait "5" seconds
+    When I press the "Clear" button
+    And I press the "list" button
+    And I wait "5" seconds
     Then I should see "Nike" in the results
 
 
@@ -70,6 +78,7 @@ Scenario: Update a Product
     When I visit the "Home Page"
     And I set the "Name" to "guess"
     And I press the "Search" button
+    And I wait "5" seconds
     Then I should see "guess" in the "name" field
     When I copy column "1" and row "1"
     And I paste the "Id" field
@@ -80,5 +89,6 @@ Scenario: Update a Product
     When I press the "Clear" button
     And I paste the "Id" field
     And I press the "Retrieve" button
+    And I wait "5" seconds
     Then I should see "False" in the "Available" dropdown
   
