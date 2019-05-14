@@ -61,7 +61,6 @@ Scenario: Update a Product
     And I press the "Retrieve" button
     And I set the "Name" to "Nike"
     And I press the "Update" button
-    And I press the "Clear" button
     And I press the "list" button
     Then I should see "Nike" in the results
 
