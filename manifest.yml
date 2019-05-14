@@ -6,8 +6,8 @@ applications:
   instances: 2
   memory: 64M
   #random-route: true
-  routes:
-  - route: nyu-product-service-s19-dev.mybluemix.net
+  # routes:
+  # - route: nyu-product-service-s19-dev.mybluemix.net
   disk_quota: 1024M
   buildpack: python_buildpack
   timeout: 180
