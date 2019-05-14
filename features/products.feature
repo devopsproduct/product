@@ -62,8 +62,10 @@ Scenario: Update a Product
     And I set the "Name" to "Nike"
     And I set the "Price" to "25.12"
     And I press the "Update" button
+    And I wait "5" seconds
     When I press the "Clear" button
     And I press the "list" button
+    And I wait "5" seconds
     Then I should see "Nike" in the results
 
 

@@ -7,6 +7,7 @@ from os import getenv
 import logging
 import json
 import requests
+import time
 from behave import *
 from compare import expect, ensure
 from selenium.webdriver.common.by import By
@@ -89,15 +90,20 @@ def step_impl(context, button):
     button_id = button.lower() + '-btn'
     context.driver.find_element_by_id(button_id).click()
 
+@when('I wait "{duration}" seconds')
+def step_impl(context, duration):
+    secs = int(duration)
+    time.sleep(secs)
+
 @then('I should see "{name}" in the results')
 def step_impl(context, name):
-    found = WebDriverWait(context.driver, WAIT_SECONDS, 15).until(
-        expected_conditions.text_to_be_present_in_element(
-            (By.ID, 'search_results'),
-            name
-        )
-    )
-    expect(found).to_be(True)
+    # found = WebDriverWait(context.driver, WAIT_SECONDS, 15).until(
+    #     expected_conditions.text_to_be_present_in_element(
+    #         (By.ID, 'search_results'),
+    #         name
+    #     )
+    # )
+    # expect(found).to_be(True)
     element = context.driver.find_element_by_id('search_results')
     expect(element.text).to_contain(name)
 
