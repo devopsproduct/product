@@ -75,10 +75,11 @@ We've also include pylint in the requirements. If you use a programmer's editor 
 BDD tests require the service to be running because unlike the the TDD unit tests that test the code locally, these BDD integration tests are using Selenium to manipulate a web page on a running server.
 
 Run these tests using 'behave'
-
- `$ python3 run.py &
- `$ behave
-
+ ```
+ $ python3 run.py &
+ $ behave
+```
 If the VM is no longer needed you can remove it with:
-
-`$ vagrant destroy
+```
+$ vagrant destroy
+```
