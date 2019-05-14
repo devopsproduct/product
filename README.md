@@ -90,9 +90,8 @@ Stop the server with:
  $ fg
  $ <ctrl+c>
 ```
-Alternately you can run the server in another `shell` by opening another terminal window and using `vagrant ssh` to establish a second connection to the VM.
 
-This repo is part of the NYU masters class: **CSCI-GA.2820-001 DevOps and Agile Methodologies** created by John Rofrano.
+Alternately you can run the server in another `shell` by opening another terminal window and using `vagrant ssh` to establish a second connection to the VM.
 
 Run these tests using 'behave'
  ```
@@ -111,3 +110,5 @@ If the VM is no longer needed you can remove it with:
 ```
 $ vagrant destroy
 ```
+
+This repo is part of the NYU masters class: **CSCI-GA.2820-001 DevOps and Agile Methodologies** created by John Rofrano.
