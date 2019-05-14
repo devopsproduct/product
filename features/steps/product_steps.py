@@ -14,7 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions
 
-WAIT_SECONDS = int(getenv('WAIT_SECONDS', '30'))
+WAIT_SECONDS = int(getenv('WAIT_SECONDS', '100'))
 
 
 @given('the following products')
