@@ -247,7 +247,7 @@ $(function () {
     // ****************************************
     // List all products
     // ****************************************
-    $("#listAll-btn").click(function() {
+    $("#list-btn").click(function() {
         var ajax = $.ajax({
             type: "GET",
             url: "/products",
