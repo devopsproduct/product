@@ -1,9 +1,14 @@
+[![Build Status](https://travis-ci.org/devopsproducts/products.svg?branch=master)](https://travis-ci.org/devopsproducts/products)
+[![codecov](https://codecov.io/gh/devopsproducts/products/branch/master/graph/badge.svg)](https://codecov.io/gh/devopsproducts/products)
+
 # Products Microservice
 _Shilpi, Kraz, Nate Dogg and MP_
 
 Products Microservice for DevOps and Agile Methodologies Stern MBA Class
 
-This repository will be used to create the Products microservice
+**Note:** The base service code is contained in `service.py` while the business logic for manipulating Products is in the `models.py` file. This follows the popular Model View Controller (MVC) separation of duities by keeping the model separate from the controller. As such, we have two tests suites: one for the model (`test_orders.py`) and one for the serveice itself (`test_server.py`)
+**Note:** This repo uses `python3` as opposed to past repos for this class which used `python2`
+**Note:** This repo uses `pytest` as opposed to past repos for this class which used `nosetests`. Nosetests hasn't been updated in years and does not work well with `python3`. See below for instructions on running tests.
 
 
 Project Files
@@ -15,10 +20,8 @@ Project Files
 * features/steps/product_steps.py -- BDD steps file 
 * features/products.feature -- BDD Test Description
 
-[![Build Status](https://travis-ci.org/devopsproducts/products.svg?branch=master)](https://travis-ci.org/devopsproducts/products)
-[![codecov](https://codecov.io/gh/devopsproducts/products/branch/master/graph/badge.svg)](https://codecov.io/gh/devopsproducts/products)
-
 ### Installation using Vagrant
+
 The easiest way to use this repo is with Vagrant and VirtualBox. if you don't have this software the first step is down download and install it.
 
 Download [VirtualBox](https://www.virtualbox.org)
@@ -40,9 +43,7 @@ cd /vagrant
 
 Now you can run `pytest` to run the tests. Always run test cases before changing any code.
 
-
-### Testing
-#### Manually running the Tests
+### Manually running the Tests
 
 Run the tests using `pytest`
 
@@ -66,18 +67,45 @@ This is particularly useful because it reports the line numbers for the code tha
 
 It's also a good idea to make sure that your Python code follows the PEP8 standard. `flake8` has been included in the `requirements.txt` file so that you can check if your code is compliant like this:
 
-```
+`
 $ flake8 --count --max-complexity=10 --statistics model,service
-```
+`
 
 We've also include pylint in the requirements. If you use a programmer's editor like Atom.io you can install plug-ins that will use pylint while you are editing. This catches a lot of errors while you code that would normally be caught at runtime. It's a good idea to always code with pylint active.
 
 BDD tests require the service to be running because unlike the the TDD unit tests that test the code locally, these BDD integration tests are using Selenium to manipulate a web page on a running server.
 
+Run these tests using `behave`
+
+```shell
+ $ python3 run.py &
+ $ behave
+ ```
+
+Note that the `&` runs the server in the background. To stop the server, you must bring it to the foreground and then press `Ctrl+C`
+
+Stop the server with:
+
+```shell
+ $ fg
+ $ <ctrl+c>
+```
+Alternately you can run the server in another `shell` by opening another terminal window and using `vagrant ssh` to establish a second connection to the VM.
+
+This repo is part of the NYU masters class: **CSCI-GA.2820-001 DevOps and Agile Methodologies** created by John Rofrano.
+
 Run these tests using 'behave'
  ```
  $ python3 run.py &
  $ behave
+```
+
+When you are done, you can exit and shut down the vm with:
+
+```
+$ exit
+$ vagrant halt
+
 ```
 If the VM is no longer needed you can remove it with:
 ```
