@@ -14,7 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions
 
-WAIT_SECONDS = int(getenv('WAIT_SECONDS', '100'))
+WAIT_SECONDS = int(getenv('WAIT_SECONDS', '60'))
 
 
 @given('the following products')
@@ -88,11 +88,10 @@ def step_impl(context, element_name):
 def step_impl(context, button):
     button_id = button.lower() + '-btn'
     context.driver.find_element_by_id(button_id).click()
-    WebDriverWait(context.driver, 30)
 
 @then('I should see "{name}" in the results')
 def step_impl(context, name):
-    found = WebDriverWait(context.driver, WAIT_SECONDS).until(
+    found = WebDriverWait(context.driver, WAIT_SECONDS, 15).until(
         expected_conditions.text_to_be_present_in_element(
             (By.ID, 'search_results'),
             name
