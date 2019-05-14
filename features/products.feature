@@ -27,7 +27,7 @@ Scenario: Create a Product
 
 Scenario: List all products
     When I visit the "Home Page"
-    And I press the "Search" button
+    And I press the "list" button
     Then I should see "guess" in the results
     And I should see "reebok" in the results
     And I should see "ninewest" in the results
