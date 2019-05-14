@@ -60,7 +60,9 @@ Scenario: Update a Product
     And I paste the "Id" field
     And I press the "Retrieve" button
     And I set the "Name" to "Nike"
+    And I set the "Price" to "25.12"
     And I press the "Update" button
+    When I press the "Clear" button
     And I press the "list" button
     Then I should see "Nike" in the results
 
