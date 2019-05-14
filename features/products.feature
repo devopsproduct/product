@@ -88,5 +88,6 @@ Scenario: Update a Product
     When I press the "Clear" button
     And I paste the "Id" field
     And I press the "Retrieve" button
+    And I wait "5" seconds
     Then I should see "False" in the "Available" dropdown
   
