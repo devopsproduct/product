@@ -63,6 +63,7 @@ Scenario: Update a Product
     When I copy column "1" and row "1"
     And I paste the "Id" field
     And I press the "Retrieve" button
+    And I wait "5" seconds
     And I set the "Name" to "Nike"
     And I set the "Price" to "25.12"
     And I press the "Update" button
