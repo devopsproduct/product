@@ -13,7 +13,7 @@ applications:
   timeout: 180
   command: gunicorn --bind=0.0.0.0:$PORT app:app
   services:
-  - nyu-devops19-products-db-dev
+  - nyu-devops19-products-db
   env:
     FLASK_APP : service:app
     FLASK_DEBUG : false
